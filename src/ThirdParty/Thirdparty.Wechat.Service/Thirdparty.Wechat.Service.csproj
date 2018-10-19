@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{03226854-7923-4F37-BE6D-2DC0FF5FC809}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Thirdparty.Wechat.Service</RootNamespace>
+    <AssemblyName>Thirdparty.Wechat.Service</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DRapid.Utility, Version=1.2.1.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\DRapid.Utility.1.2.1.4\lib\net45\DRapid.Utility.dll</HintPath>
+    </Reference>
+    <Reference Include="DRapid.Utility.Configuration, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\DRapid.Utility.Configuration.1.2.0.1\lib\net45\DRapid.Utility.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="DRapid.Utility.Exceptional, Version=1.2.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\DRapid.Utility.Exceptional.1.2.0.3\lib\net45\DRapid.Utility.Exceptional.dll</HintPath>
+    </Reference>
+    <Reference Include="DRapid.Utility.Http, Version=1.2.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\DRapid.Utility.Http.1.2.0.2\lib\net45\DRapid.Utility.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="DRapid.Utility.Serialization, Version=1.2.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\DRapid.Utility.Serialization.1.2.0.1\lib\net45\DRapid.Utility.Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http.Extensions, Version=2.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives, Version=4.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CashRedPack\Parameters\GeneralRedPackParameter.cs" />
+    <Compile Include="CashRedPack\Parameters\GroupRedPackParameter.cs" />
+    <Compile Include="CashRedPack\Parameters\IWxSafe.cs" />
+    <Compile Include="CashRedPack\Parameters\RedRecordQueryParameter.cs" />
+    <Compile Include="CashRedPack\Parameters\Reuqest\GeneralRedPackRequestParam.cs" />
+    <Compile Include="CashRedPack\Parameters\Reuqest\GroupRedPackRequestParam.cs" />
+    <Compile Include="CashRedPack\Parameters\Reuqest\RedRecordQueryRequestParam.cs" />
+    <Compile Include="CashRedPack\PaySafeUtil.cs" />
+    <Compile Include="CashRedPack\Results\GeneralRedPackResult.cs" />
+    <Compile Include="CashRedPack\Results\GroupRedPackResult.cs" />
+    <Compile Include="CashRedPack\Results\RedRecordQueryResult.cs" />
+    <Compile Include="CashRedPack\WxCashRedPackConfig.cs" />
+    <Compile Include="CashRedPack\WxSendCashRedPackService.cs" />
+    <Compile Include="IWxCustomMessage.cs" />
+    <Compile Include="IWxImageTextMessage.cs" />
+    <Compile Include="IWxImageTextMessageContainer.cs" />
+    <Compile Include="IWxMessage.cs" />
+    <Compile Include="IWxOpenMessage.cs" />
+    <Compile Include="IWxTagMessage.cs" />
+    <Compile Include="IWxTextMessage.cs" />
+    <Compile Include="IWxTextMessageContainer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WxAbstractOperating.cs" />
+    <Compile Include="WxAccessTokenInfo.cs" />
+    <Compile Include="WxApiConfig\WxBaseApis.cs" />
+    <Compile Include="WxApiConfig\WxCashRedPackApis.cs" />
+    <Compile Include="WxApiConfig\WxCustomApis.cs" />
+    <Compile Include="WxApiConfig\WxOpenIdApis.cs" />
+    <Compile Include="WxApiConfig\WxTagApis.cs" />
+    <Compile Include="WxApiConfig\WxTemplateApis.cs" />
+    <Compile Include="WxApiConfig\WxUploadApis.cs" />
+    <Compile Include="WxApiConfig\WxUserInfoApis.cs" />
+    <Compile Include="WxFilters\IWxCustomFilter.cs" />
+    <Compile Include="WxFilters\IWxCustomFilterContainer.cs" />
+    <Compile Include="WxFilters\IWxJsonTagFilter.cs" />
+    <Compile Include="WxFilters\IWxOpenFilter.cs" />
+    <Compile Include="WxFilters\IWxOpenFilterContainer.cs" />
+    <Compile Include="WxFilters\IWxTagFilterContainer.cs" />
+    <Compile Include="WxFilters\TagFilter.cs" />
+    <Compile Include="WxFilters\WxBatchFilter.cs" />
+    <Compile Include="WxFilters\WxCustomFilter.cs" />
+    <Compile Include="WxFilters\WxGetUserByTagFilter.cs" />
+    <Compile Include="WxFilters\WxOpenFilter.cs" />
+    <Compile Include="WxFilters\WxTagFilter.cs" />
+    <Compile Include="WxJsonMessageFactory.cs" />
+    <Compile Include="WxJsonMessages\WxJsonArtcle.cs" />
+    <Compile Include="WxJsonMessages\WxJsonArticlesContainer.cs" />
+    <Compile Include="WxJsonMessages\WxJsonBatchFilter.cs" />
+    <Compile Include="WxJsonMessages\WxJsonCustomImageTextMessage.cs" />
+    <Compile Include="WxJsonMessages\WxJsonCustomTextMessage.cs" />
+    <Compile Include="WxJsonMessages\WxJsonGetUserByTagFilter.cs" />
+    <Compile Include="WxJsonMessages\WxJsonImageTextMessage.cs" />
+    <Compile Include="WxJsonMessages\WxJsonMessage.cs" />
+    <Compile Include="WxJsonMessages\WxJsonOpenIdFilter.cs" />
+    <Compile Include="WxJsonMessages\WxJsonOpenImageTextMessage.cs" />
+    <Compile Include="WxJsonMessages\WxJsonOpenTextMessage.cs" />
+    <Compile Include="WxJsonMessages\WxJsonTag.cs" />
+    <Compile Include="WxJsonMessages\WxJsonTagFilter.cs" />
+    <Compile Include="WxJsonMessages\WxJsonTagImageTextMessage.cs" />
+    <Compile Include="WxJsonMessages\WxJsonTagTextMessage.cs" />
+    <Compile Include="WxJsonMessages\WxJsonTemplateKeyword.cs" />
+    <Compile Include="WxJsonMessages\WxJsonTemplateMessage.cs" />
+    <Compile Include="WxJsonMessages\WxJsonTextMessage.cs" />
+    <Compile Include="WxJssdkManager.cs" />
+    <Compile Include="WxMediaType.cs" />
+    <Compile Include="WxMessageManager.cs" />
+    <Compile Include="WxModels\WxArtcle.cs" />
+    <Compile Include="WxModels\WxCustomImageTextMessage.cs" />
+    <Compile Include="WxModels\WxCustomTextMessage.cs" />
+    <Compile Include="WxModels\WxImageTextMessage.cs" />
+    <Compile Include="WxModels\WxMessageTypes.cs" />
+    <Compile Include="WxModels\WxOpenImageTextMessage.cs" />
+    <Compile Include="WxModels\WxOpenTextMessage.cs" />
+    <Compile Include="WxModels\WxTag.cs" />
+    <Compile Include="WxModels\WxTagImageTextMessage.cs" />
+    <Compile Include="WxModels\WxTagTextMessage.cs" />
+    <Compile Include="WxModels\WxTemplateDataContainer.cs" />
+    <Compile Include="WxModels\WxTemplateMessage.cs" />
+    <Compile Include="WxModels\WxTextMessage.cs" />
+    <Compile Include="WxModels\WxUserInfo.cs" />
+    <Compile Include="WxModels\WxUserPage.cs" />
+    <Compile Include="WxOption.cs" />
+    <Compile Include="WxResults\WxBaseResult.cs" />
+    <Compile Include="WxResults\WxDownBaseArticleResult.cs" />
+    <Compile Include="WxResults\WxGetidListResult.cs" />
+    <Compile Include="WxResults\WxSelectUserByTagResult.cs" />
+    <Compile Include="WxResults\WxSendMessageResult.cs" />
+    <Compile Include="WxResults\WxTagListResult.cs" />
+    <Compile Include="WxResults\WxTagResult.cs" />
+    <Compile Include="WxResults\WxTemplateResult.cs" />
+    <Compile Include="WxResults\WxTicketResult.cs" />
+    <Compile Include="WxResults\WxUpdateArticleInImageResult.cs" />
+    <Compile Include="WxResults\WxUpdateMediaResult.cs" />
+    <Compile Include="WxResults\WxUpdateThumbResult.cs" />
+    <Compile Include="WxResults\WxUpdatOtherResult.cs" />
+    <Compile Include="WxResults\WxUserInfoResult.cs" />
+    <Compile Include="WxTagManager.cs" />
+    <Compile Include="WxTicketManager.cs" />
+    <Compile Include="WxUploadManager.cs" />
+    <Compile Include="WxUserManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
+</Project>

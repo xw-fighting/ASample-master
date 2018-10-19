@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<section>
+    <div style="margin:15px;">
+        <input type="text" name="fileName" value="" /><br />
+        <button type="button" id="btnReadString">输出XML文件</button><br />
+        <textarea id="fileContent" readonly="readonly" rows="10" cols="20" ></textarea><br />
+
+        <button type="button" id="btnReadObject">输出对象</button><br />
+        <textarea id="fileObject" readonly="readonly" rows="10" cols="20"></textarea><br />
+    </div>
+</section>
+<script>
+    $(function () {
+        indexMethod.init();
+    });
+    var indexMethod = {
+        init: function () {
+            indexMethod.eventBind();
+        },
+        eventBind: function(){
+            $("#btnReadString").click(function () {
+                $.ajax({
+                    url: '/ConfigurationReader/ReadXmlContent',
+                    type: 'get',
+                    success: function (data) {
+                        $("#fileContent").val(data);
+                    }
+                })
+            });
+            $("#btnReadObject").click(function () {
+                $.ajax({
+                    url: '/ConfigurationReader/XmlDeserialize',
+                    type: 'get',
+                    success: function (data) {
+                        console.log(data);
+                        $("#fileObject").val(data);
+                    }
+                })
+            })
+
+        },
+        
+    }
+</script>
+

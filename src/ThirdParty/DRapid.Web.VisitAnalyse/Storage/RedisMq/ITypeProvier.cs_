@@ -1,0 +1,9 @@
+﻿using System;
+
+namespace DRapid.Web.VisitAnalyse.Storage.RedisMq
+{
+    public interface ITypeProvier
+    {
+        Type TryGetType(string typeStr);
+    }
+}

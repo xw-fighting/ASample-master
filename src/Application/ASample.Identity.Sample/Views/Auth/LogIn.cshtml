@@ -1,0 +1,18 @@
+﻿@model ASample.Identity.Sample.Models.LogInModel
+@{
+    ViewBag.Title = "LogIn";
+}
+<p>
+    Hello @User.Identity.Name
+</p>
+<h2>Log In</h2>
+
+@Html.ValidationSummary(true)
+
+@using (Html.BeginForm("LogIn","Auth",FormMethod.Post))
+{
+    @Html.EditorForModel()
+    <p>
+        <button type="submit">Log In</button>
+    </p>
+}

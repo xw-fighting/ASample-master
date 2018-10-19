@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9C0F17B8-4951-4E61-B327-2AB0EA0A9BD7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ASample.Main</RootNamespace>
+    <AssemblyName>ASample.Main</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ASampleMainContext.cs" />
+    <Compile Include="Domain\Models\AggregateRoots\RabbitMqUser.cs" />
+    <Compile Include="Domain\Models\AggregateRoots\UserInfo.cs" />
+    <Compile Include="Domain\Models\AggregateRoots\UserLogin.cs" />
+    <Compile Include="Domain\QueryEntry\IRabbitMqChatQueryEntry.cs" />
+    <Compile Include="Domain\QueryEntry\IUserLoginQueryEntry.cs" />
+    <Compile Include="Domain\Repository\IUserLoginRepository.cs" />
+    <Compile Include="Migrations\201711201011256_createDatabase.cs" />
+    <Compile Include="Migrations\201711201011256_createDatabase.Designer.cs">
+      <DependentUpon>201711201011256_createDatabase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711230846511_updateDatabase.cs" />
+    <Compile Include="Migrations\201711230846511_updateDatabase.Designer.cs">
+      <DependentUpon>201711230846511_updateDatabase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Storage\Map\UserInfoMap.cs" />
+    <Compile Include="Storage\Map\UserLoginMap.cs" />
+    <Compile Include="Storage\QueryEntry\UserLoginQueryEntry.cs" />
+    <Compile Include="Storage\Repository\UserLoginRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Domain\Models\Entitys\" />
+    <Folder Include="Domain\Models\Values\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Infrastructure\ASample.EntityFramework\ASample.EntityFramework.csproj">
+      <Project>{A4D60581-4E2E-4FDE-84D4-374B1BE84A8D}</Project>
+      <Name>ASample.EntityFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\ASmaple.Domain\ASmaple.Domain.csproj">
+      <Project>{C0008393-2149-420A-8BA1-304C07E14F8B}</Project>
+      <Name>ASmaple.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201711201011256_createDatabase.resx">
+      <DependentUpon>201711201011256_createDatabase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711230846511_updateDatabase.resx">
+      <DependentUpon>201711230846511_updateDatabase.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Migrations\Sql\201711201011256_createDatabase.sql" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

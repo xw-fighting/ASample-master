@@ -1,0 +1,100 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>login</title>
+
+    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/css/Site.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</head>
+<body>
+    <nav class="nav navbar-default">
+        <div class="navbar-brand">
+            MyChat
+        </div>
+    </nav>
+    <br />
+    <div class="clearfix"></div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+
+            </div>
+            <div class="col-md-4">
+                @if (ViewData["status"] != null)
+            {
+                if (ViewData["status"].ToString().Equals("1"))
+                {
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            @ViewData["msg"].ToString()
+                        </div>
+                    </div>
+            }
+            else
+            {
+                <div class="panel panel-danger">
+                    <div class="panel-heading">
+                        @ViewData["msg"].ToString()
+                    </div>
+                </div>
+        }
+    }
+                <form action="/RabbitMqChat/Login" method="post">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="panel-title">Login</div>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="form-group">
+                                <label for="txtemail">Email</label>
+                                <input type="text" id="email" name="email" class="form-control" required />
+                            </div>
+                            <div class="form-group">
+                                <label class="txtpassword">Password</label>
+                                <input type="password" name="password" id="password" class="form-control" required />
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" name="btnlogin" id="btnlogin" class="btn btn-primary" value="提交" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-4">
+
+            </div>
+
+        </div>
+    </div>
+    <script>
+        $(function () {
+            @*$("#btnlogin").click(function () {
+                var email, password;
+                email = $("#email").val();
+                password = $("#password").val();
+                $.ajax({
+                    url: '@Url.Action("Login","RabbitMqChat")',
+                    data: { Email: email, Password: password },
+                    type: 'post',
+                    success: function (data) {
+                        return;
+                    },
+                    error: function () {
+
+                    }
+                })
+            })*@
+        })
+    </script>
+</body>
+</html>

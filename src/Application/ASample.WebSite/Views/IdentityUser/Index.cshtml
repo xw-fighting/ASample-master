@@ -1,0 +1,126 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+<div id="adminCanvas">
+    <div class="fixed-btn">
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div id="toolBar" class="col-lg-12">
+                <a id="btnAdd" href="javascript:" class="btn btn-info"><i class="iconfont icon-xinzeng"></i>添加</a>
+                <a id="btnEdit" href="javascript:" class="btn btn-info"><i class="iconfont icon-bianji"></i>修改</a>
+                <a id="btnDel" href="javascript:" class="btn btn-info"><i class="iconfont icon-shanchu"></i>删除</a>
+                <a id="btnRefresh" href="javascript:" class="btn btn-info"><i class="iconfont icon-refresh"></i>刷新</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="searchPanel" class="row  border-bottom white-bg page-heading">
+        <div class="col-lg-12 form-inline">
+            <div class="form-group">
+                <label>用户名：</label>
+                <input id="serarchUserName" name="userName" type="tel" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label>姓名：</label>
+                <input id="searchRealName" name="realName" type="tel" class="form-control ">
+                <a href="javascript:void(0)" class="btn btn-info btn-choice mr20"><i class="iconfont icon-plus"></i>选择</a>
+            </div>
+            <button id="btnSearch" class="btn btn-info mt10"><i class="iconfont icon-sousuo"></i> 搜 索</button>
+        </div>
+    </div>
+
+    <div class="wrapper wrapper-content">
+        <div id="adminTable"></div>
+    </div>
+
+    <!-------添加-窗口-------->
+    <div class="inmodal" id="adminWin" style="display: none;">
+        <div class="modal-body form-inline" style="width: 600px;">
+            <div class="table-responsive">
+                <div class="form-group ">
+                    <label class="col-sm-2">用户名</label>
+                    <div class="col-sm-10">
+                        <span class="txt">管理员admin</span>
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <label class="col-sm-2">用户名</label>
+                    <div class="col-sm-10">
+                        <input id="userName" name="userName" type="text" placeholder="请输入用户名" class="form-control" data-samename="true" data-minlength="2" data-minlength-error="用户名最少2位" required>
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <label class="col-sm-2"><em class="color-red">*</em>用户名</label>
+                    <div class="col-sm-4">
+                        <input id="userName" name="userName" type="text" placeholder="请输入用户名" class="form-control" data-samename="true" data-minlength="2" data-minlength-error="用户名最少2位" required>
+                        <div class="field-validation-error"><i class="iconfont icon-hint"></i>请输入用户名！</div>
+                    </div>
+                    <label class="col-sm-2">密码</label>
+                    <div class="col-sm-4">
+                        <input id="password" name="password" type="password" placeholder="请输入密码" class="form-control" data-minlength="6" data-minlength-error="密码最少6位" required>
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <label class="col-sm-2">用户名</label>
+                    <div class="col-sm-4">
+                        <input name="userName" type="text" placeholder="请输入用户名" class="form-control" data-samename="true" data-minlength="2" data-minlength-error="用户名最少2位">
+                    </div>
+                    <label class="col-sm-2">密码</label>
+                    <div class="col-sm-4">
+                        <input name="password" type="password" placeholder="请输入密码" class="form-control" data-minlength="6" data-minlength-error="密码最少6位">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary">保 存</button>
+        </div>
+    </div>
+</div>
+ 
+
+
+<!--admin脚本-->
+<script type="text/javascript">
+    //admin的参数
+    var indexParam = {
+    };
+
+    //admin的方法
+    var indexMethod = {
+        initGrid: function () {
+            var columns = [
+                { field: "Name", title: "登录名" },
+                { field: "Password", title: "密码" },
+                { field: "CreateTimeText", title: "创建时间" },
+                { field: "DeleteTimeText", title: "删除时间" }
+            ];
+            var url = '/api/UserLogin/GetList';
+            var mainHeight = $.getMainCanvasHeight($('#adminCanvas .fixed-btn'), $('#adminCanvas #searchPanel .form-inline'));
+            var gridOption = baituPluginOptions.AjaxGridOption(columns, url, false, mainHeight);
+            $('#adminCanvas #adminTable').kendoGrid(gridOption);
+        },
+        
+        //添加
+        add: function () {
+            $('#adminCanvas #adminWin').openForm('用户添加', 600);
+        },
+
+        //绑定事件
+        bindEvent: function () {
+            $('#adminCanvas #btnAdd').click(indexMethod.add);
+
+        }
+
+    };
+
+    $(function () {
+        setTimeout(function () {
+            indexMethod.initGrid();
+            indexMethod.bindEvent();
+        },1000);
+    });
+</script>   
+

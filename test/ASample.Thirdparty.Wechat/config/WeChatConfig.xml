@@ -1,0 +1,21 @@
+﻿<WeChatConfig>
+    <!--肖伟测试号-->
+    <WxAppid>wx5fd56846a94a3375</WxAppid>
+    <WxSecret>625e809525b77d3b3fb9d415fdab190a</WxSecret>
+    <!--生产配置-->
+    <!--模板消息编号-->
+    <WxMessageTemplateId>0b2kor8vZivWu7oafpJDnpQj2dUh7Kud0WrgeM_ddXc</WxMessageTemplateId>
+    <TencentAppid>1035</TencentAppid>
+    <TencentSecret>b70d01ec0aeeaef96e8d385f7f0c143a</TencentSecret>
+    <TencentSignKey>authkey</TencentSignKey>
+    <TencentExpired>600</TencentExpired>
+    <TencentSim>70</TencentSim>
+    <!--WebService API 开始-->
+    <!--API文档地址http://lbs.qq.com/webservice_v1/guide-gcoder.html-->
+    <WSKey>DOCBZ-DSAW6-A5LSE-MHIZB-BEW2O-4RBJX</WSKey>
+    <WSGeocoderUrl>http://apis.map.qq.com/ws/geocoder/v1/</WSGeocoderUrl>
+    <WSGeocoderCoordType>3</WSGeocoderCoordType>
+    <WxApiTokenGetUrl>https://api.weixin.qq.com/cgi-bin/token</WxApiTokenGetUrl>
+    <WxApiTicketGetUrl>https://api.weixin.qq.com/cgi-bin/ticket/getticket</WxApiTicketGetUrl>
+    <!--WebService API 结束-->
+</WeChatConfig>

@@ -1,0 +1,44 @@
+﻿{
+  "button": [
+    {
+      "name": "公共服务",
+      "sub_button": [
+        {
+          "type": "view",
+          "name": "信息公告",
+          "url": "http://mgs96871.s1.natapp.cc/platform/wechat/?path=%2Fhome%2FNotice"
+        },
+        {
+          "type": "view",
+          "name": "办事指南",
+          "url": "http://mgs96871.s1.natapp.cc/platform/wechat/?path=%2Fhome%2FGuide"
+        },
+        {
+          "type": "view",
+          "name": "我要缴费",
+          "url": "http://mgs96871.s1.natapp.cc/platform/wechat/?path=%2Fhome%2FPayment"
+        },
+        {
+          "type": "view",
+          "name": "我要查询",
+          "url": "http://mgs96871.s1.natapp.cc/platform/wechat/?path=%2Fhome%2FQuery"
+        },
+        {
+          "type": "view",
+          "name": "我要办事",
+          "url": "http://mgs96871.s1.natapp.cc/platform/wechat/?path=%2Fhome%2FIndex"
+        }
+      ]
+    },
+    {
+      "type": "view",
+      "name": "建言建议",
+      "url": "http://mgs96871.s1.natapp.cc/platform/wechat/?path=%2FFeedBack%2FIndex"
+    },
+    {
+      "type": "view",
+      "name": "个人中心",
+      "url": "http://mgs96871.s1.natapp.cc/platform/wechat/?path=%2FUserCenter"
+    }
+  ]
+}

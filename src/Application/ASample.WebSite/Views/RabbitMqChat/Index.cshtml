@@ -1,0 +1,136 @@
+﻿@using System.Web.Optimization
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/css/Site.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#btnsend").click(function () {
+                send();
+            });
+            getMyFriends();
+
+            function getMyFriends()
+            {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetFriendList")",
+                    contentType: "application/json; charset=utf-8",
+                    data: '{}',
+                    dataType: "json",
+                    success: function (r) {
+                        var ddlfrined = $("[id*=ddlfriend]");
+                        // ddlfrined.empty().append('<option selected="selected" value="0">select</option>');
+                        for (var i = 0; i <r.length; i++) {
+                            ddlfrined.append($("<option></option>").val(r[i].Value).html(r[i].Text));
+                        }
+                    },
+                    error: function (r) {
+                        alert("error");
+                    }
+                });
+            }
+            setInterval(function () {
+                var friend = $("#ddlfriend").val();
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: '{}',
+                    url: "@Url.Action("Receive")",
+                    dataType: "json",
+                    success: function (response) {
+                        var data = $("#divmsg").html();
+                        $("#divmsg").html(data + "<br>" + friend+":" + response);
+
+                    },
+                    error: function (response) {
+
+                    }
+                });
+            }, 5000);
+            
+            function send() {
+                var message = $("#txtmsg").val();
+                var friend = $("#ddlfriend").val();
+                var data = $("#divmsg").html();
+                $("#divmsg").html(data + "<br>Me:" + message);
+                $("#txtmsg").val("");
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: '{"message":"' + message + '","friend":"'+friend+'"}',
+                    url: "@Url.Action("SendMsg")",
+                    dataType: "json",
+                    success: function (response) {
+                        var data = $("#divmsg").html();
+                        $("#divmsg").html(data + "<br>Me :" + message);
+                    },
+                    error: function (response) {
+
+                    }
+                });
+            };
+            function clearChatMsg() {
+                $("#divmsg").html("");
+            }
+        });
+    </script>
+</head>
+<body>
+    <nav class="nav navbar-default">
+        <div class="navbar-brand">
+            <span style="float:right;">@Session["username"].ToString()</span>
+        </div>
+    </nav>
+    <br />
+    <div class="clearfix"></div>
+    @using (Html.BeginForm())
+    {
+        <div class="container">
+            <div class="row">
+
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <select id="ddlfriend" name="ddlfriend" class="form-control" onchange="clearChatMsg()"></select>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="txtmsg" id="txtmsg" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <input type="button" value="send" class="btn btn-success" name="btnsend" id="btnsend" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                Messages
+                            </div>
+                            <div class="panel-footer" style="min-height:400px;">
+                                <div id="divmsg">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    <div>
+
+    </div>
+</body>
+</html>

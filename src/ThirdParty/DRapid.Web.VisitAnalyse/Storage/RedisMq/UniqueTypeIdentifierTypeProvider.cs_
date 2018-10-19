@@ -1,0 +1,26 @@
+﻿using System;
+using System.Collections.Concurrent;
+using DRapid.Web.VisitAnalyse.Core;
+
+namespace DRapid.Web.VisitAnalyse.Storage.RedisMq
+{
+    /// <summary>
+    /// 用于解析类型
+    /// </summary>
+    public class UniqueTypeIdentifierTypeProvider : ITypeProvier
+    {
+        public Type TryGetType(string typeStr)
+        {
+            _set.TryGetValue(typeStr, out Type result);
+            return result;
+        }
+
+        public void Register(Type typeInfo)
+        {
+            var identifier = new Extension.UniqueTypeIdentifier(typeInfo);
+            _set.AddOrUpdate(identifier.ToString(), k => typeInfo, (k, v) => typeInfo);
+        }
+
+        private ConcurrentDictionary<string, Type> _set = new ConcurrentDictionary<string, Type>();
+    }
+}

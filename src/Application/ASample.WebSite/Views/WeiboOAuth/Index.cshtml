@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+<link href="~/Content/css/Site.css" rel="stylesheet" />
+<div>
+    <a id="weiboLogin" href="/WeiboOAuth/SignInWeibo">微博登录</a>
+</div>
+
+
+
+@section Scripts{
+    <script>
+        $(function () {
+            weiboMethod.init();
+        });
+
+        var weiboMethod = {
+            init: function () {
+                weiboMethod.eventBind();
+            },
+            eventBind: function () {
+                $("#weiboLogin").click(function () {
+                    //weiboMethod.weiboLogin();
+                });
+            },
+            weiboLogin: function () {
+                $.ajax({
+                    url: '/WeiboOAuth/SignInWeibo',
+                    type: 'get',
+                    success: function (data) {
+                        location.href = data;
+                    },
+                    error: function () {
+                        alert("error");
+                    }
+                })
+            }
+        }
+    </script>
+}
+
+

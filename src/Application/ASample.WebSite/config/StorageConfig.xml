@@ -1,0 +1,6 @@
+﻿<StorageConfig>
+  <ManageSite>http://localhost:8063/</ManageSite>
+  <ManageSitePhyPath>D:\Projects_tfs_2013\MobileGovService\Master\src\ASample.MobileSite</ManageSitePhyPath>
+  <UploadImagePath>Upload\Images\</UploadImagePath>
+  <MobileSite>http://ASample96871.s1.natapp.cc</MobileSite>
+</StorageConfig>

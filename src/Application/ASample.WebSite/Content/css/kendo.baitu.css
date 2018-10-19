@@ -1,0 +1,139 @@
+.k-animation-container,
+.k-animation-container *,
+.k-animation-container :after,
+.k-block .k-header,
+.k-list-container,
+.k-widget,
+.k-widget *,
+.k-widget :before,
+div.k-window-content {
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.col-lg-1,
+.col-lg-10,
+.col-lg-11,
+.col-lg-12,
+.col-lg-2,
+.col-lg-3,
+.col-lg-4,
+.col-lg-5,
+.col-lg-6,
+.col-lg-7,
+.col-lg-8,
+.col-lg-9,
+.col-md-1,
+.col-md-10,
+.col-md-11,
+.col-md-12,
+.col-md-2,
+.col-md-3,
+.col-md-4,
+.col-md-5,
+.col-md-6,
+.col-md-7,
+.col-md-8,
+.col-md-9,
+.col-sm-1,
+.col-sm-10,
+.col-sm-11,
+.col-sm-12,
+.col-sm-2,
+.col-sm-3,
+.col-sm-4,
+.col-sm-5,
+.col-sm-6,
+.col-sm-7,
+.col-sm-8,
+.col-sm-9,
+.col-xs-1,
+.col-xs-10,
+.col-xs-11,
+.col-xs-12,
+.col-xs-2,
+.col-xs-3,
+.col-xs-4,
+.col-xs-5,
+.col-xs-6,
+.col-xs-7,
+.col-xs-8,
+.col-xs-9 {
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.k-panelbar .k-tabstrip-items .k-icon,
+.k-tabstrip-items .k-icon {
+	margin: 0 5px 0 -10px;
+	vertical-align: middle;
+}
+
+.k-tabstrip-items .k-link {
+	padding-left: 15px;
+	padding-right: 5px;
+}
+
+.k-tabstrip>.k-content {
+	padding-top: 0;
+}
+
+.k-widget,
+.k-tabstrip:focus {
+	box-shadow: none;
+}
+
+.k-tabstrip-wrapper {
+	padding-bottom: 20px;
+}
+
+.k-pager-wrap {
+	margin-top: -1px;
+}
+
+.k-pager-numbers .k-link,
+.k-state-selected {
+	height: 2.3em;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.field-validation-error {
+	color: #f00;
+	white-space: nowrap;
+}
+
+.field-validation-error .iconfont {
+	font-size: 14px;
+}
+
+.k-tabstrip>.k-content {
+	padding: 0 0 0 0.92rem;
+}
+
+.k-draghandle.k-state-selected:hover,
+.k-ghost-splitbar-horizontal,
+.k-ghost-splitbar-vertical,
+.k-list>.k-state-highlight,
+.k-list>.k-state-selected,
+.k-marquee-color,
+.k-panel>.k-state-selected,
+.k-scheduler .k-scheduler-toolbar .k-state-selected,
+.k-scheduler .k-today.k-state-selected,
+.k-state-selected,
+.k-state-selected:link,
+.k-state-selected:visited,
+.k-tool.k-state-selected {
+	color: #fff;
+	background-color: #23C6C8;
+	border-color: #23C6C8;
+}
+
+.k-grid td.k-state-selected:hover,
+.k-grid tr.k-state-selected:hover td {
+	background-color: #23C6C8;
+}
+.k-widget.k-grid .k-pager-numbers li:last-child a {
+	border-radius: 0 4px 4px 0;
+	border-right: #ccc solid 1px;
+}

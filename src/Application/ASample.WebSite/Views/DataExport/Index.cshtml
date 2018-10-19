@@ -1,0 +1,85 @@
+﻿
+@{
+    ViewBag.Title = "数据导出";
+    Layout = null;
+}
+@*<script src="~/Scripts/jquery-1.7.2.js"></script>*@
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.form.js"></script>
+<h2>数据导出测试</h2>
+<section class="content" id="app">
+    @*搜索*@
+    <div id="searchPanel" class="row wrapper border-bottom white-bg page-heading mt10 searchpanel">
+        <a id="btnExport" class="btn btn-info mt10"><i class="iconfont icon-refresh"></i>导出查询结果</a><br />
+        <button id="btnExport2" class="btn btn-info mt10"><i class="iconfont icon-refresh"></i>导出查询结果2</button>
+        <form enctype="multipart/form-data" id="file-form">
+            <input type="file" name="filed" /><br />
+        </form>
+        <input type="button" onclick="indexMethod.importExcel()" value="提交" name="submit" /><br />
+<textarea readonly="readonly" rows="10" cols="80" id="msg"></textarea>
+    </div>
+
+
+</section>
+<script>
+    $(function () {
+        indexMethod.init();
+    });
+    var indexMethod = {
+        init: function () {
+            indexMethod.eventBind();
+        },
+        eventBind: function () {
+            $("#btnExport").click(function () {
+                indexMethod.exportDataToExcel();
+            });
+            $("#btnExport2").click(function () {
+                indexMethod.exportDataToExcel2();
+            });
+            $("#btnImport").click(function () {
+                indexMethod.importExcel();
+            })
+        },
+        //导出过滤后的数据
+        exportDataToExcel: function () {
+            var href = "/DataExport/ExportDataToExcel";
+            $("#btnExport").attr("href", href);
+            $("#btnExport").attr("target", "_blank");
+        },
+
+        //ajax导出过滤后的数据
+        exportDataToExcel2: function () {
+                $('#file-form').ajaxSubmit({
+                    type: 'POST', // HTTP请求方式
+                    url: '/DataExport/ExportDataToExcel2', // 请求的URL地址
+                    dataType: 'json', // 服务器返回数据转换成的类型
+                    success: function (data, responseStatus) {
+                        location.href = location.origin + '/' + data;
+                    }
+                });
+        },
+        // 导入Excel
+        importExcel:function() {
+                $('#file-form').ajaxSubmit({
+                    type: 'POST', // HTTP请求方式
+                    url: '/DataExport/ExcelToDataBase2', // 请求的URL地址
+                    dataType: 'json', // 服务器返回数据转换成的类型
+                    success: function (data, responseStatus) {
+                        var msg = '';
+                        if (data.success) {
+                            msg = '转换成功!\r\n';
+                        } else {
+                            msg = '转换失败!\r\n';
+                        }
+                        msg += data.msg + '\r\n'; // 获取异常信息
+                        for (var i = 0, len = data.data.length; i < len; i++) { // 获取转换后的实体对象
+                            msg += '数据：' + JSON.stringify(data.data[i]) + '\r\n';
+                        }
+                        $('#msg').val(msg);
+                    }
+                });
+            }
+    };
+
+</script>
+
