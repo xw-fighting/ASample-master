@@ -34,6 +34,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\amqmdnet.dll</HintPath>
     </Reference>
+    <Reference Include="IBM.XMS, Version=9.1.0.0, Culture=neutral, PublicKeyToken=d2666ab12fca862b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\IBM.XMS.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -46,11 +50,14 @@
   <ItemGroup>
     <Compile Include="IBMWebspherMqService.cs" />
     <Compile Include="Model\MqConstant.cs" />
+    <Compile Include="Model\ReturnResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Test.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
     <Content Include="lib\amqmdnet.dll" />
+    <Content Include="lib\amqxcs2.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
