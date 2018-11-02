@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\IBMWMQMMsgLister.cs" />
     <Compile Include="IBMWebspherMqService.cs" />
     <Compile Include="Model\MqConstant.cs" />
     <Compile Include="Model\ReturnResult.cs" />

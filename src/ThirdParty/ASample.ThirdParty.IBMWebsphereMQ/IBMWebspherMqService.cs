@@ -107,7 +107,7 @@ namespace ASample.ThirdParty.IBMWebsphereMQ
         /// 读取消息
         /// </summary>
         /// <returns></returns>
-        public ReturnResult ReadMessage(string queueName)
+        public ReturnResult ReadMessage()
         {
             try
             {
@@ -116,7 +116,7 @@ namespace ASample.ThirdParty.IBMWebsphereMQ
                     LogInfo(errMsg, "IBM_Error_Log", ".txt");
                     return ReturnResult.Error(errMsg);
                 }
-                var queue = qMgr.AccessQueue(queueName, MQC.MQOO_INPUT_AS_Q_DEF | MQC.MQOO_FAIL_IF_QUIESCING);
+                var queue = qMgr.AccessQueue(MqConstant.QueueName, MQC.MQOO_INPUT_AS_Q_DEF | MQC.MQOO_FAIL_IF_QUIESCING);
                 var gmo = new MQGetMessageOptions
                 {
                     Options = MQC.MQGMO_WAIT,
@@ -137,7 +137,7 @@ namespace ASample.ThirdParty.IBMWebsphereMQ
         /// <summary>
         /// 写入消息
         /// </summary>
-        public ReturnResult WriteMessage(string queueName, string body)
+        public ReturnResult WriteMessage( string body)
         {
             if (!MqConnecting(out string errMsg))
             {
@@ -146,7 +146,7 @@ namespace ASample.ThirdParty.IBMWebsphereMQ
             }
             try
             {
-                var queue = qMgr.AccessQueue(queueName, MQC.MQOO_OUTPUT);
+                var queue = qMgr.AccessQueue(MqConstant.QueueName, MQC.MQOO_OUTPUT);
                 var message = new MQMessage();
                 message.WriteString(body);
                 message.Format = MQC.MQFMT_STRING;

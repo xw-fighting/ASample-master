@@ -20,8 +20,8 @@ namespace ASample.ThirdParty.IBMWebsphereMQ
                 QueueName = "Q1.DCSI.GOS",
                 QueueManager = "QMLJG"
             });
-            var result = service.ReadMessage("Q1.DCSI.GOS");
-            service.LogInfo(msg.ToString(), "IBM_Error_Log", ".txt");
+            ITextMessage textMsg = (ITextMessage)msg;
+            service.LogInfo(textMsg.ToString(), "IBM_MessageLister_Log", ".txt");
             //Console.WriteLine(msg);
         }
 
