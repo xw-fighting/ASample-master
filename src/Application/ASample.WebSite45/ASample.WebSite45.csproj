@@ -153,6 +153,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\IBMMqController.cs" />
     <Compile Include="Api\UEditorController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -160,6 +161,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UEditorController.cs" />
+    <Compile Include="Core\ConfigReader.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -498,6 +500,10 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ThirdParty\ASample.ThirdParty.IBMWebsphereMQ\ASample.ThirdParty.IBMWebsphereMQ.csproj">
+      <Project>{e59e4251-3675-44f4-b202-d50e969c6c13}</Project>
+      <Name>ASample.ThirdParty.IBMWebsphereMQ</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ThirdParty\ASample.ThirdParty.UEditor\ASample.ThirdParty.UEditor.csproj">
       <Project>{3ab18fcb-83b2-409c-a65b-b161cc4a6ecf}</Project>
       <Name>ASample.ThirdParty.UEditor</Name>

@@ -12,7 +12,7 @@ namespace ASample.ThirdParty.IBMWebsphereMq.Test
         [TestMethod]
         public void TestConnecting()
         {
-            var service = new IBMWebspherMqService(new MqConstant
+            var service =  IBMWebspherMqService.CreateInstance(new MqConstant
             {
                 HostName = "192.168.1.234",
                 Port = 1418,
@@ -40,7 +40,7 @@ namespace ASample.ThirdParty.IBMWebsphereMq.Test
         [TestMethod]
         public void Test2()
         {
-            var service = new IBMWebspherMqService(new MqConstant
+            var service =  IBMWebspherMqService.CreateInstance(new MqConstant
             {
                 HostName = "localhost",
                 Port = 1415,
@@ -55,7 +55,7 @@ namespace ASample.ThirdParty.IBMWebsphereMq.Test
         [TestMethod]
         public void TestWriteMessage()
         {
-            var service = new IBMWebspherMqService(new MqConstant
+            var service =  IBMWebspherMqService.CreateInstance(new MqConstant
             {
                 HostName = "192.168.1.234",
                 Port = 1418,
@@ -83,7 +83,7 @@ namespace ASample.ThirdParty.IBMWebsphereMq.Test
         [TestMethod]
         public void TestReadMessage()
         {
-            var service = new IBMWebspherMqService(new MqConstant
+            var service =  IBMWebspherMqService.CreateInstance(new MqConstant
             {
                 HostName = "192.168.1.234",
                 Port = 1418,
@@ -112,7 +112,7 @@ namespace ASample.ThirdParty.IBMWebsphereMq.Test
             var service = new TestLisnter();
             service.Test1();
 
-            var service2 = new IBMWebspherMqService(new MqConstant
+            var service2 = IBMWebspherMqService.CreateInstance(new MqConstant
             {
                 HostName = "192.168.1.234",
                 Port = 1418,
@@ -126,9 +126,19 @@ namespace ASample.ThirdParty.IBMWebsphereMq.Test
         [TestMethod]
         public void TestOpenLister()
         {
-            var service = new IBMWMQMMsgLister();
-            service.MessageLister();
+            var constant = new MqConstant
+            {
+                HostName = "192.168.1.234",
+                Port = 1418,
+                ChannelName = "CHAN1",
+                QueueName = "Q1.DCSI.GOS",
+                QueueManager = "QMLJG"
+            };
+            var serviceLister =  IBMWMQMMsgLister.CreateInstance(constant);
+            var service = IBMWebspherMqService.CreateInstance(constant);
 
+            serviceLister.MessageLister();
+            service.WriteMessage("你好");
             //var service2 = new IBMWebspherMqService(new MqConstant
             //{
             //    HostName = "192.168.1.234",

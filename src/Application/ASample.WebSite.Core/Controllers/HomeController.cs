@@ -8,6 +8,7 @@ using ASample.WebSite.Core.Models;
 
 namespace ASample.WebSite.Core.Controllers
 {
+    
     public class HomeController : Controller
     {
         public IActionResult Index()

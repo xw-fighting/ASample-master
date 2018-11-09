@@ -6,10 +6,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Http;
 using System.Globalization;
 using ASample.WebSite.Core.Extensions;
-using Microsoft.Extensions.FileProviders;
+
 using System.IO;
 
 namespace ASample.WebSite.Core

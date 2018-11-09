@@ -56,7 +56,14 @@
     <Compile Include="WeChatMessageSend\Model\InParam\SendMsgParameter.cs" />
     <Compile Include="WeChatMessageSend\Model\OutResult\SendMsgResult.cs" />
     <Compile Include="WeChatMessageSend\WeChatMessageService.cs" />
+    <Compile Include="WeChatPay\Core\HttpHelper.cs" />
+    <Compile Include="WeChatPay\Core\LogHelper.cs" />
+    <Compile Include="WeChatPay\Core\SortedDictionaryExtension.cs" />
+    <Compile Include="WeChatPay\Core\WeChatPayUtility.cs" />
     <Compile Include="WeChatPay\Models\InputParam\UnifiedOrderParam.cs" />
+    <Compile Include="WeChatPay\Models\OutResult\CloseOrderResult.cs" />
+    <Compile Include="WeChatPay\Models\OutResult\QueryOrderResult.cs" />
+    <Compile Include="WeChatPay\Models\OutResult\RefundResult.cs" />
     <Compile Include="WeChatPay\Models\OutResult\UnifiedOrderResult.cs" />
     <Compile Include="WeChatPay\WeChatPayService.cs" />
   </ItemGroup>
@@ -75,6 +82,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="config\WeChatPay.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

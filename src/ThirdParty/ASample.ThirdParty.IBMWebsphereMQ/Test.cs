@@ -12,16 +12,16 @@ namespace ASample.ThirdParty.IBMWebsphereMQ
     {
         public void OnMessage(IMessage msg)
         {
-            var service = new IBMWebspherMqService(new Model.MqConstant
-            {
-                HostName = "192.168.1.234",
-                Port = 1418,
-                ChannelName = "CHAN1",
-                QueueName = "Q1.DCSI.GOS",
-                QueueManager = "QMLJG"
-            });
-            ITextMessage textMsg = (ITextMessage)msg;
-            service.LogInfo(textMsg.ToString(), "IBM_MessageLister_Log", ".txt");
+            //var service = new IBMWebspherMqService(new Model.MqConstant
+            //{
+            //    HostName = "192.168.1.234",
+            //    Port = 1418,
+            //    ChannelName = "CHAN1",
+            //    QueueName = "Q1.DCSI.GOS",
+            //    QueueManager = "QMLJG"
+            //});
+            //ITextMessage textMsg = (ITextMessage)msg;
+            //service.LogInfo(textMsg.ToString(), "IBM_MessageLister_Log", ".txt");
             //Console.WriteLine(msg);
         }
 

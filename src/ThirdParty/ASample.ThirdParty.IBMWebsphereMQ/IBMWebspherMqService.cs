@@ -13,17 +13,28 @@ namespace ASample.ThirdParty.IBMWebsphereMQ
 {
     public class IBMWebspherMqService
     {
-        public MqConstant MqConstant { get; set; }
-        public IBMWebspherMqService(MqConstant mqConstant)
+        private static IBMWebspherMqService _Singleton = null;
+        private static object _Lock = new object();
+        public static MqConstant MqConstant { get; set; }
+        public static IBMWebspherMqService CreateInstance(MqConstant wmqConstant)
         {
-            MqConstant = mqConstant;
-            //qMgr = mqConstant.MQQueueManager;
+            if (_Singleton == null) //
+            {
+                lock (_Lock)
+                {
+
+                    if (_Singleton == null)
+                    {
+                        _Singleton = new IBMWebspherMqService();
+                        MqConstant = wmqConstant;
+                    }
+                }
+            }
+            return _Singleton;
         }
+
         private MQQueueManager qMgr;
         private static string filebasepath = AppDomain.CurrentDomain.BaseDirectory + "Logs\\";
-        MQMessage mqMsg;
-        MQQueue queue;
-        MQPutMessageOptions putOptions;
 
         public string MqConnecting()
         {
