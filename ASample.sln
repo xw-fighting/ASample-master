@@ -117,7 +117,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASample.Http", "src\Infrast
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASample.Http.Test", "test\ASample.Http.Test\ASample.Http.Test.csproj", "{1D8CDB3B-A1CC-489B-A871-CD735746A12B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASample.UEditorWeb", "src\Application\ASample.UEditorWeb\ASample.UEditorWeb.csproj", "{6CE6105F-510A-4EFE-9772-F767AF56E61A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.UEditorWeb", "src\Application\ASample.UEditorWeb\ASample.UEditorWeb.csproj", "{6CE6105F-510A-4EFE-9772-F767AF56E61A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASample.WebSite.Core", "src\Application\ASample.WebSite.Core\ASample.WebSite.Core.csproj", "{6610E9E0-FFE3-4F3C-9EA0-61F58203EA0B}"
 EndProject

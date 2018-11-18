@@ -12,14 +12,22 @@ using System.Globalization;
 using ASample.WebSite.Core.Extensions;
 
 using System.IO;
+using ASample.WebSite.Core.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 namespace ASample.WebSite.Core
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IHostingEnvironment env)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+               .SetBasePath(env.ContentRootPath)
+               .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+               .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+
+            builder.AddEnvironmentVariables();
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -29,6 +37,8 @@ namespace ASample.WebSite.Core
         {
             services.AddMvc();
             services.AddDirectoryBrowser();
+            services.AddDbContext<ApplicationDbContext>(options =>
+               options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,7 +53,7 @@ namespace ASample.WebSite.Core
             //        $"Hello {CultureInfo.CurrentCulture.DisplayName}");
             //});
             
-
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -61,14 +71,9 @@ namespace ASample.WebSite.Core
             {
                 FileProvider = new PhysicalFileProvider(
             Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot", "images")),
-                RequestPath = new PathString("/MyImages")
+                RequestPath = new PathString("/images")
             });
-            //app.UseStaticFiles(new StaticFileOptions()
-            //{
-            //    FileProvider = new PhysicalFileProvider(
-            //    Path.Combine(Directory.GetCurrentDirectory(), @"MyStaticFile")),
-            //    RequestPath = new PathString("/StaticFiles")
-            //});
+           
 
             //在浏览器中显示静态文件
             app.UseDirectoryBrowser(new DirectoryBrowserOptions()
