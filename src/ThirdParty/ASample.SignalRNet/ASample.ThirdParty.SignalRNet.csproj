@@ -7,8 +7,8 @@
     <ProjectGuid>{CB812B79-00E8-4A18-9135-5291BA1BB941}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ASample.SignalRNet</RootNamespace>
-    <AssemblyName>ASample.SignalRNet</AssemblyName>
+    <RootNamespace>ASample.ThirdParty.SignalRNet</RootNamespace>
+    <AssemblyName>ASample.ThirdParty.SignalRNet</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

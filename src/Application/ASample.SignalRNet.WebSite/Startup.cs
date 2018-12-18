@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using ASample.SignalRNet.WebSite.Core;
 using Microsoft.Owin;
 using Owin;
 
@@ -11,7 +12,8 @@ namespace ASample.SignalRNet.WebSite
     {
         public void Configuration(IAppBuilder app)
         {
-            app.MapSignalR();
+            app.MapSignalR<MyConnection>("/MyConnection");
+            //app.MapSignalR();
             // 有关如何配置应用程序的详细信息，请访问 https://go.microsoft.com/fwlink/?LinkID=316888
         }
     }
