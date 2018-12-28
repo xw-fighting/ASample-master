@@ -1,13 +1,7 @@
-﻿using IBM.WMQ;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace ASample.ThirdParty.IBMWebsphereMQ.Model
 {
-    public class MqConstant
+    public class IBMWMQConstants
     {
         /// <summary>
         /// 主机Ip
@@ -17,7 +11,7 @@ namespace ASample.ThirdParty.IBMWebsphereMQ.Model
         /// <summary>
         /// 端口号
         /// </summary>
-        public int Port { get;  set; }
+        public int Port { get; set; }
 
         /// <summary>
         /// 连接接主机的电脑上加入mqm组中的账户名称，默认名称为 MUSR_MQADMIN
@@ -30,16 +24,24 @@ namespace ASample.ThirdParty.IBMWebsphereMQ.Model
         public string Password { get; set; }
 
         /// <summary>
+        /// 队列管理器名称
+        /// </summary>
+        public string QueueManager { get; set; }
+
+        /// <summary>
         /// 通道名称
         /// </summary>
-        public string ChannelName { get;  set; }
+        public string ChannelName { get; set; }
 
         /// <summary>
         /// 队列名称
         /// </summary>
-        public string QueueName { get; set; }
+        public string SendQueueName { get; set; }
 
-        public string QueueManager { get; set; }
+        /// <summary>
+        /// 队列名称
+        /// </summary>
+        public string ReceiveQueueName { get; set; }
 
         /// <summary>
         ///819主要用于unix环境，也可用于unix与windows的通讯

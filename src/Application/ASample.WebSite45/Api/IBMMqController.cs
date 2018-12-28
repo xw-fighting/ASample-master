@@ -14,22 +14,23 @@ namespace ASample.WebSite45.Api
     [RoutePrefix("api/IBMMq")]
     public class IBMMqController : ApiController
     {
-        public MqConstant MqConstant { get; set; }
-        public IBMWebspherMqService IBMMqService { get; set; }
+        public IBMWMQConstants MqConstant { get; set; }
+        public IBMWMQService IBMMqService { get; set; }
         public IBMMqController()
         {
-            MqConstant = new MqConstant
+            MqConstant = new IBMWMQConstants
             {
                 HostName = ConfigReader.ReadByKey("HostName"),
                 Port = Convert.ToInt32(ConfigReader.ReadByKey("Port")),
                 QueueManager = ConfigReader.ReadByKey("QueueManager"),
                 ChannelName = ConfigReader.ReadByKey("ChannelName"),
-                QueueName = ConfigReader.ReadByKey("QueueName"),
+                ReceiveQueueName = ConfigReader.ReadByKey("ReceiveQueueName"),
+                SendQueueName = ConfigReader.ReadByKey("SendQueueName"),
                 UserId = ConfigReader.ReadByKey("UserId"),
                 Password = ConfigReader.ReadByKey("Password"),
                 MQCCSID = ConfigReader.ReadByKey("MQCCSID"),
             };
-            IBMMqService = IBMWebspherMqService.CreateInstance(MqConstant);
+            IBMMqService = IBMWMQService.CreateInstance(MqConstant);
         }
 
         /// <summary>
@@ -38,7 +39,7 @@ namespace ASample.WebSite45.Api
         [HttpPost]
         public void OpenLister()
         {
-            var lister = IBMWMQMMsgLister.CreateInstance(MqConstant);
+            var lister = IBMMqMessageLister.CreateInstance(MqConstant);
             lister.MessageLister();
         }
 
@@ -48,20 +49,20 @@ namespace ASample.WebSite45.Api
         [HttpPost]
         public void CloseLister()
         {
-            var lister = IBMWMQMMsgLister.CreateInstance(MqConstant);
-            lister.CloseLister();
+            var lister = IBMMqMessageLister.CreateInstance(MqConstant);
+            lister.EndLister();
         }
 
         /// <summary>
         /// 写消息
         /// </summary>
         [HttpPost]
-        public ReturnResult WriteMessage()
+        public MessageResult WriteMessage()
         {
             string msg = "你好";
             if (string.IsNullOrEmpty(msg))
             {
-                return ReturnResult.Error("传入消息不能为空");
+                return MessageResult.Error("传入消息不能为空");
             }
             var result = IBMMqService.WriteMessage(msg);
             return result;
@@ -71,7 +72,7 @@ namespace ASample.WebSite45.Api
         /// 读消息
         /// </summary>
         [HttpPost]
-        public ReturnResult ReadMessage()
+        public MessageResult ReadMessage()
         {
             var result = IBMMqService.ReadMessage();
             return result;

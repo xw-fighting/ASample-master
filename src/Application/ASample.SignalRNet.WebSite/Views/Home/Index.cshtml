@@ -30,41 +30,139 @@
             text-align: right;
         }
     </style>
-    @*<script type="text/javascript">
-            $(function () {
+    
+</head>
+<body>
+    <h3>大众聊天室</h3>
+    <div id="chatbox">
+    </div>
+    <div>
+        <span>聊天名称：</span><input type="text" name="UserName" id="users" value="" />
+        <span>聊天对象：</span><input type="text" name="ClientName" id="clientname" value="" />
+    </div>
+    <div>
+        <textarea cols="5" rows="3" id="message"></textarea>
+        <input type="button" value="发送消息" id="btnSend" />
+    </div>
+    <script type="text/javascript">
 
+        $(function () {
+            //singalRMethod.init();
+            singalRMethod.init();
+            var clientName = $("#clientname").val();
+            var eChatBox = $("#chatbox");
+            var eUsers = $("#users");
+
+            var chat = $.connection.chat;
+            $.connection.hub.qs = { "clientname": clientName };
+            chat.state.test = "test";
+
+            chat.client.receiveMessage = function (dt, cn, msg) {
+                debugger
+                var clsName = "linfo";
+                if (cn == clientName || cn.indexOf("您对") >= 0) clsName = "rinfo";
+                eChatBox.append("<p class='" + clsName + "'>" + dt + " <strong>" + cn + "</strong> 说：<br/>" + msg + "</p>");
+                eChatBox.scrollTop(eChatBox[0].scrollHeight);
+            }
+
+            chat.client.userChange = function (dt, msg, users) {
+                debugger
+                eChatBox.append("<p>" + dt + " " + msg + "</p>");
+                eUsers.find("option[value!='']").remove();
+                for (var i = 0; i < users.length; i++) {
+                    if (users[i].Value == clientName) continue;
+                    eUsers.append("<option value='" + users[i].Key + "'>" + users[i].Value + "</option>")
+                }
+            }
+
+            $.connection.hub.start().done(function () {
+
+                $("#btnSend").click(function () {
+                    var toUserId = eUsers.val();
+                    if (toUserId != "") {
+                        chat.server.sendOne(toUserId, $("#message").val())
+                            .done(function () {
+                                //alert("发送成功！");
+                                $("#message").val("").focus();
+                            })
+                            .fail(function (e) {
+                                alert(e);
+                                $("#message").focus();
+                            });
+                    }
+                    else {
+                        chat.server.send($("#message").val())
+                            .done(function () {
+                                //alert("发送成功！");
+                                $("#message").val("").focus();
+                            })
+                            .fail(function (e) {
+                                alert(e);
+                                $("#message").focus();
+                            });
+                    }
+                });
+
+            });
+        });
+        var signalRParam = {
+            userList: null,
+            conn: null,
+            chat:null
+        };
+        var singalRMethod = {
+            init: function () {
+                singalRMethod.getUserList();
+
+                //singalRMethod.initConnect();
+            },
+            eventBind: function () {
+
+            },
+
+            //获取用户列表
+            getUserList: function () {
+                $.ajax({
+                    type: 'get',
+                    dataType: 'json',
+                    url: '/api/SingnalR/GetUserList',
+                    success: function (res) {
+                        signalRParam.userList = res;
+                        singalRMethod.initUser();
+                        //singalRMethod.initConnect();
+                    },
+                    error: function () {
+
+                    }
+                })
+            },
+
+            //初始化页面用户
+            initUser: function () {
+                var index = Math.floor(Math.random() * 3); 
+                if (signalRParam.userList) {
+                    signalRParam.userList[index];
+                    $("#clientname").val(signalRParam.userList[index].Name);
+                }
+                else
+                    $("#clientname").val("test" + index);
+            },
+
+            initConnect: function () {
                 var clientName = $("#clientname").val();
-                var eChatBox = $("#chatbox");
+                var eChatBox = $("#chatBox");
                 var eUsers = $("#users");
 
-                var chat = $.connection.chat;
-                $.connection.hub.qs = { "clientName": clientName };
-                chat.state.test = "test";
-
-                chat.client.receiveMessage = function (dt, cn, msg) {
-                    debugger
-                    var clsName = "linfo";
-                    if (cn == clientName || cn.indexOf("您对") >= 0) clsName = "rinfo";
-                    eChatBox.append("<p class='" + clsName + "'>" + dt + " <strong>" + cn + "</strong> 说：<br/>" + msg + "</p>");
-                    eChatBox.scrollTop(eChatBox[0].scrollHeight);
-                }
-
-                chat.client.userChange = function (dt, msg, users) {
-                    debugger
-                    eChatBox.append("<p>" + dt + " " + msg + "</p>");
-                    eUsers.find("option[value!='']").remove();
-                    for (var i = 0; i < users.length; i++) {
-                        if (users[i].Value == clientName) continue;
-                        eUsers.append("<option value='" + users[i].Key + "'>" + users[i].Value + "</option>")
-                    }
-                }
-
-                $.connection.hub.start().done(function () {
-
+                var conn = $.hubConnection();
+                signalRParam.conn = conn;
+                conn.qs = { "clientname": clientName };
+                conn.start().done(function () {
+                    var chat = signalRParam.conn.createHubProxy("chat");
+                    signalRParam.chat = chat;
                     $("#btnSend").click(function () {
-                        var toUserId = eUsers.val();
-                        if (toUserId != "") {
-                            chat.server.sendOne(toUserId, $("#message").val())
+                        var toUserName = eUsers.val();
+                        if (toUserName != "") {
+                            chat.invoke("sendOne", toUserName, $("#message").val())
                                 .done(function () {
                                     //alert("发送成功！");
                                     $("#message").val("").focus();
@@ -75,7 +173,7 @@
                                 });
                         }
                         else {
-                            chat.server.send($("#message").val())
+                            chat.invoke("send", $("#message").val())
                                 .done(function () {
                                     //alert("发送成功！");
                                     $("#message").val("").focus();
@@ -88,87 +186,33 @@
                     });
 
                 });
+            },
 
-            });
-        </script>*@
-
-    <script type="text/javascript">
-        $(function () {
-
-            var clientName = $("#clientname").val();
-            var eChatBox = $("#chatbox");
-            var eUsers = $("#users");
-
-            var conn = $.hubConnection();
-            conn.qs = { "clientName": clientName };
-
-
-            conn.start().done(function () {
-
-                $("#btnSend").click(function () {
-                    var toUserId = eUsers.val();
-                    if (toUserId != "") {
-                        chat.invoke("sendOne", toUserId, $("#message").val())
-                            .done(function () {
-                                //alert("发送成功！");
-                                $("#message").val("").focus();
-                            })
-                            .fail(function (e) {
-                                alert(e);
-                                $("#message").focus();
-                            });
-                    }
-                    else {
-                        chat.invoke("send", $("#message").val())
-                            .done(function () {
-                                //alert("发送成功！");
-                                $("#message").val("").focus();
-                            })
-                            .fail(function (e) {
-                                alert(e);
-                                $("#message").focus();
-                            });
-                    }
+            //
+            receviceMessage: function () {
+                
+                signalRParam.chat.on("receiveMessage", function (dt, cn, msg) {
+                    debugger
+                    var clsName = "linfo";
+                    if (cn == clientName || cn.indexOf("您对") >= 0) clsName = "rinfo";
+                    eChatBox.append("<p class='" + clsName + "'>" + dt + " <strong>" + cn + "</strong> 说：<br/>" + msg + "</p>");
+                    eChatBox.scrollTop(eChatBox[0].scrollHeight);
                 });
+            },
 
-            });
+            //
+            userChange: function () {
+                //signalRParam.chat.on("userChange", function (dt, msg, users) {
+                //    eChatBox.append("<p>" + dt + " " + msg + "</p>");
+                //    eUsers.find("option[value!='']").remove();
+                //    for (var i = 0; i < users.length; i++) {
+                //        if (users[i].Value == clientName) continue;
+                //        eUsers.append("<option value='" + users[i].Key + "'>" + users[i].Value + "</option>")
+                //    }
+                //});
+            }
 
-            var chat = conn.createHubProxy("chat");
-
-            chat.on("receiveMessage", function (dt, cn, msg) {
-                var clsName = "linfo";
-                if (cn == clientName || cn.indexOf("您对") >= 0) clsName = "rinfo";
-                eChatBox.append("<p class='" + clsName + "'>" + dt + " <strong>" + cn + "</strong> 说：<br/>" + msg + "</p>");
-                eChatBox.scrollTop(eChatBox[0].scrollHeight);
-            });
-
-            chat.on("userChange", function (dt, msg, users) {
-                eChatBox.append("<p>" + dt + " " + msg + "</p>");
-                eUsers.find("option[value!='']").remove();
-                for (var i = 0; i < users.length; i++) {
-                    if (users[i].Value == clientName) continue;
-                    eUsers.append("<option value='" + users[i].Key + "'>" + users[i].Value + "</option>")
-                }
-            });
-
-
-
-        });
+        }
     </script>
-</head>
-<body>
-    <h3>大众聊天室</h3>
-    <div id="chatbox">
-    </div>
-    <div>
-        <span>聊天名称：</span>
-        @Html.TextBox("clientname", ViewBag.ClientName as string, new { @readonly = "readonly", style = "width:300px;" })
-        <span>聊天对象：</span>
-        @Html.DropDownList("users", ViewBag.OnLineUsers as IEnumerable<SelectListItem>)
-    </div>
-    <div>
-        @Html.TextArea("message", new { rows = 5, style = "width:500px;" })
-        <input type="button" value="发送消息" id="btnSend" />
-    </div>
 </body>
 </html>

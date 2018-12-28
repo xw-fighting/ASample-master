@@ -13,30 +13,20 @@ namespace ASample.SignalRNet.WebSite.Core
     public class ChatHub:Hub
     {
         public static ConcurrentDictionary<string, string> OnLineUsers = new ConcurrentDictionary<string, string>();
-        private int i = 0;
-        public ChatHub()
-        {
-            
-        }
 
         [HubMethodName("send")]
         public void Send(string message)
         {
-            var j = i++;
-            string clientName = OnLineUsers.GetOrAdd(Context.ConnectionId, "send"+j );
-
             message = HttpUtility.HtmlEncode(message).Replace("\r\n", "<br/>").Replace("\n", "<br/>");
-            Clients.All.receiveMessage(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), clientName, message);
+            Clients.All.receiveMessage(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), message);
         }
 
         [HubMethodName("sendOne")]
-        public void Send(string toUserId, string message)
+        public void Send(string clientName, string message)
         {
-            var j = i++;
-            string clientName = OnLineUsers.GetOrAdd(Context.ConnectionId, "sendone"+j);
             message = HttpUtility.HtmlEncode(message).Replace("\r\n", "<br/>").Replace("\n", "<br/>");
-            Clients.Caller.receiveMessage(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), string.Format("您对 {1}", clientName, OnLineUsers[toUserId]), message);
-            Clients.Client(toUserId).receiveMessage(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), string.Format("{0} 对您", clientName), message);
+            Clients.Caller.receiveMessage(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), string.Format("您对 {0}", clientName), message);
+            Clients.Client(clientName).receiveMessage(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), string.Format("{0} 对您", clientName), message);
         }
 
         public override Task OnConnected()

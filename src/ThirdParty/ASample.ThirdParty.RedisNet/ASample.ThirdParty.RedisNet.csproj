@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E59E4251-3675-44F4-B202-D50E969C6C13}</ProjectGuid>
+    <ProjectGuid>{12666705-2F68-4F1C-880B-96F631998AF8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ASample.ThirdParty.IBMWebsphereMQ</RootNamespace>
-    <AssemblyName>ASample.ThirdParty.IBMWebsphereMQ</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>ASample.ThirdParty.RedisNet</RootNamespace>
+    <AssemblyName>ASample.ThirdParty.RedisNet</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,14 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="amqmdnet, Version=8.0.0.5, Culture=neutral, PublicKeyToken=dd3cb1c9aae9ec97, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>lib\amqmdnet.dll</HintPath>
-    </Reference>
-    <Reference Include="IBM.XMS, Version=9.1.0.0, Culture=neutral, PublicKeyToken=d2666ab12fca862b, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>lib\IBM.XMS.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -49,18 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\IBMWMQMMsgLister.cs" />
-    <Compile Include="Core\TxtLog.cs" />
-    <Compile Include="IBMWMQService.cs" />
-    <Compile Include="Model\IBMWMQConstants.cs" />
-    <Compile Include="Model\MessageResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Test.cs" />
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <Content Include="lib\amqmdnet.dll" />
-    <Content Include="lib\amqxcs2.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 
 namespace ASample.ThirdParty.IBMWebsphereMQ
 {
-    public class IBMWebspherMqService
+    public class IBMWMQService
     {
-        private static IBMWebspherMqService _Singleton = null;
+        private static IBMWMQService _Singleton = null;
         private static object _Lock = new object();
-        public static MqConstant MqConstant { get; set; }
-        public static IBMWebspherMqService CreateInstance(MqConstant wmqConstant)
+        public static IBMWMQConstants MqConstant { get; set; }
+        public static IBMWMQService CreateInstance(IBMWMQConstants wmqConstant)
         {
             if (_Singleton == null) //
             {
@@ -25,7 +25,7 @@ namespace ASample.ThirdParty.IBMWebsphereMQ
 
                     if (_Singleton == null)
                     {
-                        _Singleton = new IBMWebspherMqService();
+                        _Singleton = new IBMWMQService();
                         MqConstant = wmqConstant;
                     }
                 }
@@ -118,16 +118,16 @@ namespace ASample.ThirdParty.IBMWebsphereMQ
         /// 读取消息
         /// </summary>
         /// <returns></returns>
-        public ReturnResult ReadMessage()
+        public MessageResult ReadMessage()
         {
             try
             {
                 if (!MqConnecting(out string errMsg))
                 {
                     LogInfo(errMsg, "IBM_Error_Log", ".txt");
-                    return ReturnResult.Error(errMsg);
+                    return MessageResult.Error(errMsg);
                 }
-                var queue = qMgr.AccessQueue(MqConstant.QueueName, MQC.MQOO_INPUT_AS_Q_DEF | MQC.MQOO_FAIL_IF_QUIESCING);
+                var queue = qMgr.AccessQueue(MqConstant.ReceiveQueueName , MQC.MQOO_INPUT_AS_Q_DEF | MQC.MQOO_FAIL_IF_QUIESCING);
                 var gmo = new MQGetMessageOptions
                 {
                     Options = MQC.MQGMO_WAIT,
@@ -137,37 +137,37 @@ namespace ASample.ThirdParty.IBMWebsphereMQ
                 var message = new MQMessage();
                 queue.Get(message);
                 var messageReturn = message.ReadString(message.MessageLength);
-                return ReturnResult.Success(messageReturn);
+                return MessageResult.Success(messageReturn);
             }
             catch (Exception ex)
             {
                 LogInfo(ex.ToString() + "\n" + ex.Message, "IBM_Error_Log", ".txt");
-                return ReturnResult.Error(ex.Message);
+                return MessageResult.Error(ex.Message);
             }
         }
         /// <summary>
         /// 写入消息
         /// </summary>
-        public ReturnResult WriteMessage( string body)
+        public MessageResult WriteMessage( string body)
         {
             if (!MqConnecting(out string errMsg))
             {
                 LogInfo(errMsg, "IBM_Error_Log", ".txt");
-                return ReturnResult.Error(errMsg);
+                return MessageResult.Error(errMsg);
             }
             try
             {
-                var queue = qMgr.AccessQueue(MqConstant.QueueName, MQC.MQOO_OUTPUT);
+                var queue = qMgr.AccessQueue(MqConstant.SendQueueName, MQC.MQOO_OUTPUT);
                 var message = new MQMessage();
                 message.WriteString(body);
                 message.Format = MQC.MQFMT_STRING;
                 queue.Put(message);
-                return ReturnResult.Success("数据插入成功");
+                return MessageResult.Success("数据插入成功");
             }
             catch (Exception ex)
             {
                 LogInfo(ex.ToString() + "\n" + ex.Message, "IBM_Error_Log", ".txt");
-                return ReturnResult.Error(ex.Message );
+                return MessageResult.Error(ex.Message );
             }
         }
 
