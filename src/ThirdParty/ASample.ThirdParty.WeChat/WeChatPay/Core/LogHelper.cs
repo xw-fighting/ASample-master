@@ -17,7 +17,7 @@ namespace ASample.ThirdParty.WeChat.WeChatPay.Core
 
             FileStream newfs = new FileStream(path, FileMode.Append);
             StreamWriter sw = new StreamWriter(newfs, Encoding.UTF8);
-            sw.Write(DateTime.Now.ToString("HH:mm:ss       ") + Environment.NewLine + info + Environment.NewLine);
+            sw.Write(DateTime.Now.ToString("HH:mm:ss") + Environment.NewLine + info + Environment.NewLine);
             sw.Close();
             newfs.Close();
         }

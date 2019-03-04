@@ -1,8 +1,10 @@
-﻿using System;
+﻿using ASample.ThirdParty.WeChat.WeChatPay.Core.HttpException;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +13,20 @@ namespace ASample.ThirdParty.WeChat.WeChatPay.Core
 {
     public class HttpHelper
     {
+        private static readonly HttpClient _httpClient;
+        private static string BASE_ADDRESS = "localhost";
+        static HttpHelper()
+        {
+            _httpClient = new HttpClient() { BaseAddress = new Uri(BASE_ADDRESS) };
+            //帮HttpClient热身
+            _httpClient.SendAsync(new HttpRequestMessage
+            {
+                Method = new HttpMethod("HEAD"),
+                RequestUri = new Uri(BASE_ADDRESS + "/")
+            })
+                .Result.EnsureSuccessStatusCode();
+        }
+
         /// <summary>
         /// 处理http GET请求
         /// </summary>
@@ -131,6 +147,44 @@ namespace ASample.ThirdParty.WeChat.WeChatPay.Core
             {
                 throw ex;
             }
+        }
+
+        /// <summary>
+        /// HttpPsot
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="requestContent"></param>
+        /// <param name="timeOutInMs"></param>
+        /// <returns></returns>
+        public static async Task<string> PostAsync (string url,HttpContent requestContent, int? timeOutInMs = null)
+        {
+            var timeOut = timeOutInMs != null?(TimeSpan?)TimeSpan.FromMilliseconds(timeOutInMs.Value): null;
+            if (timeOut != null)
+                _httpClient.Timeout = timeOut.Value;
+            var response = await _httpClient.PostAsync(new Uri(url), requestContent);
+            var responseText = await response.Content.ReadAsStringAsync();
+            if (response.StatusCode != HttpStatusCode.OK )
+                throw new HttpResultException(response.StatusCode, responseText);
+            return responseText;
+        }
+
+        /// <summary>
+        /// HttpPsot
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="requestContent"></param>
+        /// <param name="timeOutInMs"></param>
+        /// <returns></returns>
+        public static async Task<string> GetAsync(string url, HttpContent requestContent, int? timeOutInMs = null)
+        {
+            var timeOut = timeOutInMs != null ? (TimeSpan?)TimeSpan.FromMilliseconds(timeOutInMs.Value) : null;
+            if (timeOut != null)
+                _httpClient.Timeout = timeOut.Value;
+            var response = await _httpClient.GetAsync(new Uri(url));
+            var responseText = await response.Content.ReadAsStringAsync();
+            if (response.StatusCode != HttpStatusCode.OK)
+                throw new HttpResultException(response.StatusCode, responseText);
+            return responseText;
         }
     }
 }

@@ -36,6 +36,10 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Http.Common, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\System.Web.Http.Common.4.0.20126.16343\lib\net40\System.Web.Http.Common.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -56,6 +60,7 @@
     <Compile Include="WeChatMessageSend\Model\InParam\SendMsgParameter.cs" />
     <Compile Include="WeChatMessageSend\Model\OutResult\SendMsgResult.cs" />
     <Compile Include="WeChatMessageSend\WeChatMessageService.cs" />
+    <Compile Include="WeChatPay\Core\HttpException\HttpResultException.cs" />
     <Compile Include="WeChatPay\Core\HttpHelper.cs" />
     <Compile Include="WeChatPay\Core\LogHelper.cs" />
     <Compile Include="WeChatPay\Core\SortedDictionaryExtension.cs" />
