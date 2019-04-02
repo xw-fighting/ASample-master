@@ -30,12 +30,12 @@ namespace ASample.ThirdParty.MongoDb.Base
                 return obj as TMongoClient;
             }
         }
-        public MongoCollection<TEntity> _dbSet;
+        //public MongoCollection<TEntity> _dbSet;
 
 
         public IQueryable<TEntity> AsQueryable()
         {
-            TDataBase
+            throw new NotImplementedException();
         }
 
         public bool Delete(TKey id)
