@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Text;
-using DRapid.Utility.Log;
 
 namespace ASample.Thirdpary.Tencent.Identity
 {

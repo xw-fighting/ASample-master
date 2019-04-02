@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28407.52
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_modules", "_modules", "{3EABEADC-FBAA-4CA1-977F-7A37D6C23547}"
 EndProject
@@ -138,6 +138,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASample.MicroService.Logger", "src\MicroService\ASample.MicroService.Logger\ASample.MicroService.Logger.csproj", "{D83CAB70-09EE-4176-8071-9DDC2A15B03A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASample.ThirdParty.MongoDb", "src\ThirdParty\ASample.ThirdParty.MongoDb\ASample.ThirdParty.MongoDb.csproj", "{9F98BE3F-871D-406B-A967-54F8D13293FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASample.ThridParty.Redis", "src\ThirdParty\ASample.ThridParty.Redis\ASample.ThridParty.Redis.csproj", "{EF715156-DDFC-446A-AB5E-069A971EB7C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -369,6 +371,10 @@ Global
 		{9F98BE3F-871D-406B-A967-54F8D13293FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F98BE3F-871D-406B-A967-54F8D13293FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F98BE3F-871D-406B-A967-54F8D13293FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF715156-DDFC-446A-AB5E-069A971EB7C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF715156-DDFC-446A-AB5E-069A971EB7C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF715156-DDFC-446A-AB5E-069A971EB7C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF715156-DDFC-446A-AB5E-069A971EB7C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -435,6 +441,7 @@ Global
 		{A77B1151-71C8-4D86-8C23-5D60281D88D3} = {AE014547-AA04-49CD-A080-AE6CC10601CC}
 		{D83CAB70-09EE-4176-8071-9DDC2A15B03A} = {A77B1151-71C8-4D86-8C23-5D60281D88D3}
 		{9F98BE3F-871D-406B-A967-54F8D13293FE} = {974A8A7A-E471-40F2-9120-335B834CEC40}
+		{EF715156-DDFC-446A-AB5E-069A971EB7C9} = {974A8A7A-E471-40F2-9120-335B834CEC40}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7187A683-576E-406D-8AED-973DF38266C1}
