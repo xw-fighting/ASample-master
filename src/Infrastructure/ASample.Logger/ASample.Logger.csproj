@@ -40,11 +40,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Handlers\ApiLogHandler.cs" />
+    <Compile Include="Handlers\ILogHandler.cs" />
+    <Compile Include="Handlers\SystemLogHandler.cs" />
+    <Compile Include="Handlers\UserLogHandler.cs" />
     <Compile Include="LogFileInfo.cs" />
     <Compile Include="LoggerService.cs" />
     <Compile Include="Model\LoggerInfo.cs" />
     <Compile Include="Model\Values\LoggerType.cs" />
+    <Compile Include="Models\Entity\ApiLog.cs" />
+    <Compile Include="Models\Entity\SystemLog.cs" />
+    <Compile Include="Models\Entity\UserLog.cs" />
+    <Compile Include="Models\Value\LevelType.cs" />
+    <Compile Include="Models\Value\LogType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="LogService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
