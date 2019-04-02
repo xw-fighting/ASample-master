@@ -64,7 +64,6 @@ namespace ASample.ThirdParty.RabbitMq
             catch (Exception)
             {
                 return null;
-
             }
 
         }

@@ -34,49 +34,7 @@
             display: none;
         }
     </style>
-    <script type="text/javascript">
-        $(function () {
-            $("#userstable tbody tr:odd").addClass("odd");
-            $("#userstable tbody tr:even").addClass("even");
-
-            var conn = $.connection("/MyConnection", {"Monitoring":"Y"});
-
-            conn.start().done(function () {
-                $("#userstable").delegate("button.pass", "click", function () {
-                    var rid = $(this).parent("td").prev().attr("data-rid");
-                    conn.send(rid);
-                    var tr = $(this).parents("tr");
-                    tr.remove();
-                });
-
-            }).fail(function (msg) {
-                alert(msg);
-            });
-
-            conn.received(function (msg) {
-                if (msg == "ready")
-                {
-                    $("#spstatus").html("监控服务已就绪");
-                    return;
-                }
-                else if (msg.indexOf("in_") == 0) {
-                    var tr = $(".non-temptr").clone(true);
-                    tr.removeClass("non-temptr");
-                    var td = tr.children().first();
-                    var rid = msg.toString().substr("in_".length);
-                    td.html(rid + "进入被监控页面，是否允许？");
-                    td.attr("data-rid", rid);
-                    $("#userstable tbody").append(tr);
-                }
-                else
-                {
-                    var rid = msg.toString().substr("out_".length);
-                    $("td[data-rid=" + rid + "]").parent("tr").remove();
-                }
-            });
-
-        });
-    </script>
+    
 </head>
 <body>
     <div>
@@ -92,5 +50,46 @@
             <td style="width:100px"><button class="pass">允许</button></td>
         </tr>
     </table>
+    <script type="text/javascript">
+        $(function () {
+            $("#userstable tbody tr:odd").addClass("odd");
+            $("#userstable tbody tr:even").addClass("even");
+
+            var conn = $.connection("/MyConnection", { "Monitoring": "Y" });
+
+            conn.start().done(function () {
+                $("#userstable").delegate("button.pass", "click", function () {
+                    var rid = $(this).parent("td").prev().attr("data-rid");
+                    conn.send(rid);
+                    var tr = $(this).parents("tr");
+                    tr.remove();
+                });
+
+            }).fail(function (msg) {
+                alert(msg);
+            });
+
+            conn.received(function (msg) {
+                if (msg == "ready") {
+                    $("#spstatus").html("监控服务已就绪");
+                    return;
+                }
+                else if (msg.indexOf("in_") == 0) {
+                    var tr = $(".non-temptr").clone(true);
+                    tr.removeClass("non-temptr");
+                    var td = tr.children().first();
+                    var rid = msg.toString().substr("in_".length);
+                    td.html(rid + "进入被监控页面，是否允许？");
+                    td.attr("data-rid", rid);
+                    $("#userstable tbody").append(tr);
+                }
+                else {
+                    var rid = msg.toString().substr("out_".length);
+                    $("td[data-rid=" + rid + "]").parent("tr").remove();
+                }
+            });
+
+        });
+    </script>
 </body>
 </html>

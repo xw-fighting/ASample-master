@@ -1,35 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ASample.ThirdParty.IBMWebsphereMQ.Model
+﻿namespace ASample.ThirdParty.IBMWebsphereMQ.Model
 {
-    public class ReturnResult
+    public class MessageResult
     {
         /// <summary>
         /// 是否出错
         /// </summary>
-        public  bool IsError { get; set; }
+        public bool IsError { get; set; }
 
         /// <summary>
         /// IsError 为false 时 为提示信息，为true 时为获取的消息内容
         /// </summary>
         public string Message { get; set; }
 
-        public static ReturnResult Error(string msg)
+        public static MessageResult Error(string msg)
         {
-            return new ReturnResult
+            return new MessageResult
             {
                 IsError = true,
                 Message = msg
             };
         }
 
-        public static ReturnResult Success(string msg)
+        public static MessageResult Success(string msg)
         {
-            return new ReturnResult
+            return new MessageResult
             {
                 IsError = false,
                 Message = msg

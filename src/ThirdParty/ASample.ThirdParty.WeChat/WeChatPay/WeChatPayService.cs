@@ -44,15 +44,16 @@ namespace ASample.ThirdParty.WeChat.WeChatPay
             var sign =  WeChatPayUtility.MakeSign(dataDic.ToUrlString());
             dataDic.SetValue("sign", sign);
 
-            var httpClient = new HttpClient();
-            var content = new StringContent(dataDic.ToXml());
-            var response = await httpClient.PostAsync(url, content);
-            var xmlResult =await response.Content.ReadAsStringAsync();
+            using (var httpClient = new HttpClient())
+            {
+                var content = new StringContent(dataDic.ToXml());
+                var response = await httpClient.PostAsync(url, content);
+                var xmlResult = await response.Content.ReadAsStringAsync();
 
-            var xmlSerialize = new XmlSerialize();
-            var result = xmlSerialize.Deserialize<UnifiedOrderResult>(xmlResult);
-            return result;
-
+                var xmlSerialize = new XmlSerialize();
+                var result = xmlSerialize.Deserialize<UnifiedOrderResult>(xmlResult);
+                return result;
+            }
         }
 
         /// <summary>
@@ -82,12 +83,14 @@ namespace ASample.ThirdParty.WeChat.WeChatPay
 
             var xml = dataDic.ToXml();
             var content = new StringContent(xml);
-            var httpClient = new HttpClient();
-            var response = await httpClient.PostAsync(url, content);
-            var xmlResult =await  response.Content.ReadAsStringAsync();
-            var xmlSer = new XmlSerialize();
-            var result = xmlSer.Deserialize<QueryOrderResult>(xmlResult);
-            return result;
+            using (var httpClient = new HttpClient())
+            {
+                var response = await httpClient.PostAsync(url, content);
+                var xmlResult = await response.Content.ReadAsStringAsync();
+                var xmlSer = new XmlSerialize();
+                var result = xmlSer.Deserialize<QueryOrderResult>(xmlResult);
+                return result;
+            }
         }
 
         /// <summary>
@@ -106,12 +109,15 @@ namespace ASample.ThirdParty.WeChat.WeChatPay
 
             var xml = dataDic.ToXml();
             var content = new StringContent(xml);
-            var httpClient = new HttpClient();
-            var response = await httpClient.PostAsync(url, content);
-            var xmlResult = await response.Content.ReadAsStringAsync();
-            var xmlSer = new XmlSerialize();
-            var result = xmlSer.Deserialize<CloseOrderResult>(xmlResult);
-            return result;
+            using (var httpClient = new HttpClient())
+            {
+                var response = await httpClient.PostAsync(url, content);
+                var xmlResult = await response.Content.ReadAsStringAsync();
+                var xmlSer = new XmlSerialize();
+                var result = xmlSer.Deserialize<CloseOrderResult>(xmlResult);
+                return result;
+            }
+                
         }
 
         /// <summary>
@@ -136,13 +142,15 @@ namespace ASample.ThirdParty.WeChat.WeChatPay
                 data.SetValue("sign", WeChatPayUtility.MakeSign(data.ToUrlString()));
 
                 var xml = data.ToXml();
-                var httpClient = new HttpClient();
-                var content = new StringContent(xml);
-                var response = await httpClient.PostAsync(url, content);
-                var xmlResult =await response.Content.ReadAsStringAsync();
-                var xmlSerialize = new XmlSerialize();
-                var result = xmlSerialize.Deserialize<RefundResult>(xmlResult);
-                return result;
+                using (var httpClient = new HttpClient())
+                {
+                    var content = new StringContent(xml);
+                    var response = await httpClient.PostAsync(url, content);
+                    var xmlResult = await response.Content.ReadAsStringAsync();
+                    var xmlSerialize = new XmlSerialize();
+                    var result = xmlSerialize.Deserialize<RefundResult>(xmlResult);
+                    return result;
+                }
             }
             catch (Exception ex)
             {

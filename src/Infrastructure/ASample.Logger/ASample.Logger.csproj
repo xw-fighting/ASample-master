@@ -45,6 +45,9 @@
     <Compile Include="Handlers\SystemLogHandler.cs" />
     <Compile Include="Handlers\UserLogHandler.cs" />
     <Compile Include="LogFileInfo.cs" />
+    <Compile Include="LoggerService.cs" />
+    <Compile Include="Model\LoggerInfo.cs" />
+    <Compile Include="Model\Values\LoggerType.cs" />
     <Compile Include="Models\Entity\ApiLog.cs" />
     <Compile Include="Models\Entity\SystemLog.cs" />
     <Compile Include="Models\Entity\UserLog.cs" />

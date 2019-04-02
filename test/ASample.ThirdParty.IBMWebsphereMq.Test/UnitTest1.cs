@@ -12,13 +12,14 @@ namespace ASample.ThirdParty.IBMWebsphereMq.Test
         [TestMethod]
         public void TestConnecting()
         {
-            var service =  IBMWebspherMqService.CreateInstance(new MqConstant
+            var service =  IBMWMQService.CreateInstance(new IBMWMQConstants
             {
                 HostName = "192.168.1.234",
                 Port = 1418,
                 //ManagerName = "",
                 ChannelName = "CHAN1",
-                QueueName = "Q1.DCSI.GOS",
+                ReceiveQueueName = "Q1.DCSI.GOS",
+                SendQueueName = "Q1.DCSI.GOS",
                 QueueManager = "QMLJG"
             });
 
@@ -40,12 +41,13 @@ namespace ASample.ThirdParty.IBMWebsphereMq.Test
         [TestMethod]
         public void Test2()
         {
-            var service =  IBMWebspherMqService.CreateInstance(new MqConstant
+            var service =  IBMWMQService.CreateInstance(new IBMWMQConstants
             {
                 HostName = "localhost",
                 Port = 1415,
                 ChannelName = "TEST.CHANEL",
-                QueueName = "TEST2",
+                ReceiveQueueName = "TEST2",
+                SendQueueName = "TEST2",
                 QueueManager = "TEST"
             });
 
@@ -55,12 +57,13 @@ namespace ASample.ThirdParty.IBMWebsphereMq.Test
         [TestMethod]
         public void TestWriteMessage()
         {
-            var service =  IBMWebspherMqService.CreateInstance(new MqConstant
+            var service =  IBMWMQService.CreateInstance(new IBMWMQConstants
             {
                 HostName = "192.168.1.234",
                 Port = 1418,
                 ChannelName = "CHAN1",
-                QueueName = "Q1.DCSI.GOS",
+                ReceiveQueueName = "Q1.DCSI.GOS",
+                SendQueueName = "Q1.DCSI.GOS",
                 QueueManager = "QMLJG"
             });
             //var service = new IBMWebspherMqService(new MqConstant
@@ -83,12 +86,13 @@ namespace ASample.ThirdParty.IBMWebsphereMq.Test
         [TestMethod]
         public void TestReadMessage()
         {
-            var service =  IBMWebspherMqService.CreateInstance(new MqConstant
+            var service =  IBMWMQService.CreateInstance(new IBMWMQConstants
             {
                 HostName = "192.168.1.234",
                 Port = 1418,
                 ChannelName = "CHAN1",
-                QueueName = "Q1.DCSI.GOS",
+                ReceiveQueueName = "Q1.DCSI.GOS",
+                SendQueueName = "Q1.DCSI.GOS",
                 QueueManager = "QMLJG"
             });
             //var service = new IBMWebspherMqService(new MqConstant
@@ -112,12 +116,13 @@ namespace ASample.ThirdParty.IBMWebsphereMq.Test
             var service = new TestLisnter();
             service.Test1();
 
-            var service2 = IBMWebspherMqService.CreateInstance(new MqConstant
+            var service2 = IBMWMQService.CreateInstance(new IBMWMQConstants
             {
                 HostName = "192.168.1.234",
                 Port = 1418,
                 ChannelName = "CHAN1",
-                QueueName = "Q1.DCSI.GOS",
+                ReceiveQueueName = "Q1.DCSI.GOS",
+                SendQueueName = "Q1.DCSI.GOS",
                 QueueManager = "QMLJG"
             });
             service2.WriteMessage("你好");
@@ -126,16 +131,17 @@ namespace ASample.ThirdParty.IBMWebsphereMq.Test
         [TestMethod]
         public void TestOpenLister()
         {
-            var constant = new MqConstant
+            var constant = new IBMWMQConstants
             {
                 HostName = "192.168.1.234",
                 Port = 1418,
                 ChannelName = "CHAN1",
-                QueueName = "Q1.DCSI.GOS",
+                ReceiveQueueName = "Q1.DCSI.GOS",
+                SendQueueName = "Q1.DCSI.GOS",
                 QueueManager = "QMLJG"
             };
-            var serviceLister =  IBMWMQMMsgLister.CreateInstance(constant);
-            var service = IBMWebspherMqService.CreateInstance(constant);
+            var serviceLister = IBMMqMessageLister.CreateInstance(constant);
+            var service = IBMWMQService.CreateInstance(constant);
 
             serviceLister.MessageLister();
             service.WriteMessage("你好");
