@@ -23,4 +23,6 @@
     <ProjectReference Include="..\..\ThirdParty\ASample.ThirdParty.UEditor.NetCore\ASample.ThirdParty.UEditor.NetCore.csproj" />
   </ItemGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
+
 </Project>

@@ -22,7 +22,6 @@ namespace ASample.ThirdParty.UEditor.NetCore.Core
             Config.ConfigFile = configFileRelativePath;
             Config.NoCache = isCacheConfig;
             Config.WebRootPath = basePath;
-
             services.TryAddSingleton<UEditorService>();
         }
     }
