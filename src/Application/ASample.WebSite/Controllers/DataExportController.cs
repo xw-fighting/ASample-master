@@ -4,8 +4,11 @@ using ASample.Web.Common.Excel.Values;
 using ASample.WebSite.Models;
 using ASample.WebSite.Models.DataExport;
 using ASample.WebSite.Models.UserEntity;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -113,6 +116,7 @@ namespace ASample.WebSite.Controllers
         /// <returns></returns>
         [System.Web.Mvc.HttpPost]
         public async Task ExportDataToExcel2()
+
         {
             //查询出的数据
             // 1.获取数据集合
@@ -141,6 +145,7 @@ namespace ASample.WebSite.Controllers
                     { "Name", "姓名" },
                     { "Age", "年龄" },
                     { "GenderName", "性别" },
+                    { "TranscriptsEn", "成绩" },
                     { "TranscriptsEn.ChineseScores", "语文成绩" },
                     { "TranscriptsEn.MathScores", "数学成绩" },
                 };
@@ -197,6 +202,253 @@ namespace ASample.WebSite.Controllers
             //var filename = $"民办初中-{DateTime.Now:yyyyMMddHHmmssfff}.xls";
             //var file = ExcelUtility.ExportToStream<UserViewModel>(option);
             //return File(file, "application/vnd.ms-excel", filename);
+        }
+        [System.Web.Mvc.HttpPost]
+        public void ExportData3()
+        {
+            try
+            {
+                var workbook = new XSSFWorkbook();
+                var sheet = workbook.CreateSheet("Commission");
+                var row = sheet.CreateRow(0);
+
+                var cellStyleBorder = workbook.CreateCellStyle();
+                cellStyleBorder.BorderBottom = BorderStyle.Thin;
+                cellStyleBorder.BorderLeft = BorderStyle.Thin;
+                cellStyleBorder.BorderRight = BorderStyle.Thin;
+                cellStyleBorder.BorderTop = BorderStyle.Thin;
+                cellStyleBorder.Alignment = HorizontalAlignment.Center;
+                cellStyleBorder.VerticalAlignment = VerticalAlignment.Center;
+
+                var cellStyleBorderAndColorGreen = workbook.CreateCellStyle();
+                cellStyleBorderAndColorGreen.CloneStyleFrom(cellStyleBorder);
+                cellStyleBorderAndColorGreen.FillPattern = FillPattern.SolidForeground;
+                ((XSSFCellStyle)cellStyleBorderAndColorGreen).SetFillForegroundColor(new XSSFColor(new byte[] { 198, 239, 206 }));
+
+                var cellStyleBorderAndColorYellow = workbook.CreateCellStyle();
+                cellStyleBorderAndColorYellow.CloneStyleFrom(cellStyleBorder);
+                cellStyleBorderAndColorYellow.FillPattern = FillPattern.SolidForeground;
+                ((XSSFCellStyle)cellStyleBorderAndColorYellow).SetFillForegroundColor(new XSSFColor(new byte[] { 255, 235, 156 }));
+
+                row.CreateCell(0);
+                row.CreateCell(1);
+                row.CreateCell(2);
+                row.CreateCell(3);
+
+                var r2 = sheet.CreateRow(1);
+                r2.CreateCell(0, CellType.String).SetCellValue("Name");
+                r2.Cells[0].CellStyle = cellStyleBorderAndColorGreen;
+                r2.CreateCell(1, CellType.String).SetCellValue("Address");
+                r2.Cells[1].CellStyle = cellStyleBorderAndColorGreen;
+                r2.CreateCell(2, CellType.String).SetCellValue("city");
+                r2.Cells[2].CellStyle = cellStyleBorderAndColorYellow;
+                r2.CreateCell(3, CellType.String).SetCellValue("state");
+                r2.Cells[3].CellStyle = cellStyleBorderAndColorYellow;
+                var cra = new NPOI.SS.Util.CellRangeAddress(0, 0, 0, 1);
+                var cra1 = new NPOI.SS.Util.CellRangeAddress(0, 0, 2, 3);
+                sheet.AddMergedRegion(cra);
+                sheet.AddMergedRegion(cra1);
+
+                ICell cell = sheet.GetRow(0).GetCell(0);
+                cell.SetCellType(CellType.String);
+                cell.SetCellValue("Supplier Provided Data");
+                cell.CellStyle = cellStyleBorderAndColorGreen;
+                sheet.GetRow(0).GetCell(1).CellStyle = cellStyleBorderAndColorGreen;
+
+                ICell cell1 = sheet.GetRow(0).GetCell(2);
+                cell1.SetCellType(CellType.String);
+                cell1.SetCellValue("Deal Provided Data");
+                cell1.CellStyle = cellStyleBorderAndColorYellow;
+                sheet.GetRow(0).GetCell(3).CellStyle = cellStyleBorderAndColorYellow;
+
+                using (FileStream fs = new FileStream(@"c:\temp\excel\test.xlsx", FileMode.Create, FileAccess.Write))
+                {
+                    workbook.Write(fs);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public void ExportData4()
+        {
+            try
+            {
+                var sheets = new List<string>
+                {
+                    "1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"
+                };
+
+                var airlineNames = new List<string>
+                {
+                    "飞院本场","飞院转场","容商跳伞","四川驼峰"
+                };
+
+                var dataList = new List<ExportDataDto>
+                {
+                    new ExportDataDto
+                    {
+                        Month = "1月",
+                        AirlineName = "飞院本场",
+                        TaskDate = "2020-01-01",
+                        TotalHours = "10.7",
+                        TotalSorties = "5"
+                    },
+                    new ExportDataDto
+                    {
+                        Month = "1月",
+                        AirlineName = "飞院转场",
+                        TaskDate = "2020-01-05",
+                        TotalHours = "10.7",
+                        TotalSorties = "5"
+                    },
+                    new ExportDataDto
+                    {
+                        Month = "1月",
+                        AirlineName = "容商跳伞",
+                        TaskDate = "2020-01-05",
+                        TotalHours = "6.7",
+                        TotalSorties = "3"
+                    }
+                };
+                var workbook = new XSSFWorkbook();
+
+                foreach (var sheetName in sheets)
+                {
+                    var sheet = workbook.CreateSheet(sheetName);
+                    var row = sheet.CreateRow(0);
+                    var craFirst = new NPOI.SS.Util.CellRangeAddress(0, 0, 0, airlineNames.Count*2);
+                    sheet.AddMergedRegion(craFirst);
+
+                    var cellStyleBorder = workbook.CreateCellStyle();
+                    cellStyleBorder.BorderBottom = BorderStyle.Thin;
+                    cellStyleBorder.BorderLeft = BorderStyle.Thin;
+                    cellStyleBorder.BorderRight = BorderStyle.Thin;
+                    cellStyleBorder.BorderTop = BorderStyle.Thin;
+                    cellStyleBorder.Alignment = HorizontalAlignment.Center;
+                    cellStyleBorder.VerticalAlignment = VerticalAlignment.Center;
+
+                    var cellStyleBorderAndColorGreen = workbook.CreateCellStyle();
+                    cellStyleBorderAndColorGreen.CloneStyleFrom(cellStyleBorder);
+                    cellStyleBorderAndColorGreen.FillPattern = FillPattern.SolidForeground;
+                    ((XSSFCellStyle)cellStyleBorderAndColorGreen).SetFillForegroundColor(new XSSFColor(new byte[] { 198, 239, 206 }));
+
+                    var cellStyleBorderAndColorYellow = workbook.CreateCellStyle();
+                    cellStyleBorderAndColorYellow.CloneStyleFrom(cellStyleBorder);
+                    cellStyleBorderAndColorYellow.FillPattern = FillPattern.SolidForeground;
+                    ((XSSFCellStyle)cellStyleBorderAndColorYellow).SetFillForegroundColor(new XSSFColor(new byte[] { 255, 235, 156 }));
+
+                    //创建第一行的列
+                    for (int i = 0; i < airlineNames.Count * 2 + 1; i++)
+                    {
+                        row.CreateCell(i);
+                    }
+                    row.CreateCell(0, CellType.String).SetCellValue($"自贡凤鸣通用机场飞行日统计（2020年{sheetName}）");
+
+                    var r2 = sheet.CreateRow(1);
+                    r2.CreateCell(0, CellType.String).SetCellValue("单位");
+
+                    var r3 = sheet.CreateRow(2);
+                    r3.CreateCell(0, CellType.String).SetCellValue("日期/架次、小时");
+
+                    //创建第二行的列
+                    for (int i = 1; i < airlineNames.Count * 2+1; i++)
+                    {
+                        r2.CreateCell(i, CellType.String);
+                        r3.CreateCell(i, CellType.String);
+                        var cellVale = string.Empty;
+                        if (i % 2 == 0)
+                        {
+                            r3.Cells[i].CellStyle = cellStyleBorderAndColorGreen;
+                            cellVale = "架次(个)";
+                        }
+                        else
+                        {
+                            r3.Cells[i].CellStyle = cellStyleBorderAndColorYellow;
+                            cellVale = "时间(小时)";
+                        }
+                        r3.CreateCell(i, CellType.String).SetCellValue(cellVale);
+                    }
+
+                    //创建第三行的列
+                    for (int i = 1; i < airlineNames.Count+1; i++)
+                    {
+                        var j = 1;
+                        ICellStyle cellStyle;
+                        if (i % 2 == 0)
+                        {
+                            j = i + 1;
+                            cellStyle = cellStyleBorderAndColorGreen;
+                        }
+                        else
+                        {
+                            j = i;
+                            cellStyle = cellStyleBorderAndColorYellow;
+                        }
+                        var cra = new NPOI.SS.Util.CellRangeAddress(1, 1, i*2-1, i * 2);
+                        sheet.AddMergedRegion(cra);
+                        ICell cell = sheet.GetRow(1).GetCell(i*2-1);
+                        cell.SetCellType(CellType.String);
+                        cell.SetCellValue(airlineNames[i-1]);
+                        cell.CellStyle = cellStyle;
+                        sheet.GetRow(1).GetCell(i*2).CellStyle = cellStyle;
+                    }
+
+                    //创建数据列
+                    var date = DateTime.Now;
+                    var month = Convert.ToInt32(sheetName.Replace("月", ""));
+                    var days = DateTime.DaysInMonth(date.Year, month);
+                    var daysDatas = dataList.Where(c => c.Month == sheetName);
+                    var monthStr = string.Empty;
+                    if (month < 10)
+                        monthStr = "0" + month;
+                    else
+                        monthStr = month.ToString();
+
+                    for (int i = 1; i < days; i++)
+                    {
+                        var dataRow = sheet.CreateRow(i + 2);
+                        
+                        var dayStr = string.Empty;
+                        if(i < 10)
+                            dayStr = "0" + i;
+                        else
+                            dayStr = i.ToString();
+
+                        var dateStr = date.Year +"-"+ monthStr + "-"+ dayStr;
+                        dataRow.CreateCell(0, CellType.String).SetCellValue(dateStr);
+                        var dayDatas = daysDatas.Where(c => c.TaskDate == dateStr);
+
+                        for (int j = 0; j < airlineNames.Count; j++)
+                        {
+                            dataRow.CreateCell(j * 2 + 1, CellType.String);
+                            dataRow.CreateCell(j * 2 + 2, CellType.String);
+                            if (dayDatas == null || dayDatas.Count() <= 0)
+                                continue;
+                            foreach (var dayData in dayDatas)
+                            {
+                                if (dayData == null)
+                                    continue;
+                                if (dayData.AirlineName.Contains(airlineNames[j]))
+                                {
+                                    dataRow.CreateCell(j * 2 + 1, CellType.String).SetCellValue(dayData.TotalHours);
+                                    dataRow.CreateCell(j * 2 + 2, CellType.String).SetCellValue(dayData.TotalSorties);
+                                }
+                            }
+                        }
+                    }
+                    using (FileStream fs = new FileStream(@"c:\temp\excel\test6.xlsx", FileMode.Create, FileAccess.Write))
+                    {
+                        workbook.Write(fs);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
 
@@ -302,8 +554,6 @@ namespace ASample.WebSite.Controllers
             {
                 throw;
             }
-
-
         }
 
         /// <summary>
@@ -434,8 +684,6 @@ namespace ASample.WebSite.Controllers
             {
                 throw;
             }
-
-
         }
     }
 }

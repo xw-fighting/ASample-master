@@ -126,8 +126,6 @@ namespace ASample.Web.Common.Excel
             //列头行索引
             var columHeaderRowIndex = currentRowIndex;
 
-
-
             //列头样式
             var headerfont = hssworkbook.CreateFont();
             headerfont.FontHeightInPoints = 12;
@@ -221,6 +219,217 @@ namespace ASample.Web.Common.Excel
             var stream = new MemoryStream();
             hssworkbook.Write(stream);
             return stream;
+        }
+
+
+        public static string ExportToExcel<T>(ExcelExportOption<T> setting)
+        {
+            //第一步：创建文件
+            var fileName = setting.FileName + "-" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".xls";// 文件名称
+            var urlPath = "/UpFiles/ExcelFiles/" + fileName;// 文件下载的URL地址，供给前台下载
+            var filePath = HttpContext.Current.Server.MapPath("\\" + urlPath);// 文件路径
+
+            // 1.检测是否存在文件夹，若不存在就建立个文件夹
+            string directoryName = Path.GetDirectoryName(filePath);
+            if (!Directory.Exists(directoryName))
+            {
+                Directory.CreateDirectory(directoryName);
+            }
+
+            var cols = setting.Colums.Count();
+            var hssworkbook = new HSSFWorkbook();
+            var sheet1 = hssworkbook.CreateSheet(setting.FileName);
+
+            if (setting.DefaultRowHeight > 0)
+                sheet1.DefaultRowHeight = setting.DefaultRowHeight;
+
+            var docSummaryInfo = PropertySetFactory.CreateDocumentSummaryInformation();
+            docSummaryInfo.Company = String.Empty;
+            var summaryInfo = PropertySetFactory.CreateSummaryInformation();
+            summaryInfo.Subject = setting.Title;
+            hssworkbook.DocumentSummaryInformation = docSummaryInfo;
+            hssworkbook.SummaryInformation = summaryInfo;
+
+            //自动调整某列宽度
+            for (var i = 0; i < cols; i++)
+            {
+                sheet1.AutoSizeColumn(i, true);
+            }
+
+            var currentRowIndex = 0;
+
+            //设置标题信息
+            if (!String.IsNullOrWhiteSpace(setting.Title))
+            {
+                var row0 = sheet1.CreateRow(currentRowIndex);
+                for (var i = 0; i < cols; i++)
+                {
+                    row0.CreateCell(i).Row.Height = 600;
+                }
+                row0.GetCell(0).SetCellValue(setting.Title);
+
+                currentRowIndex++;
+
+                //标题样式
+                sheet1.AddMergedRegion(new CellRangeAddress(0, 0, 0, cols - 1));
+                var titlestyle = hssworkbook.CreateCellStyle();
+                titlestyle.WrapText = true;
+                var titleFont = hssworkbook.CreateFont();
+                titleFont.FontHeight = 20 * 20;
+                titlestyle.SetFont(titleFont);
+                titlestyle.Alignment = HorizontalAlignment.Center;
+                sheet1.GetRow(0).GetCell(0).CellStyle = titlestyle;
+            }
+
+
+            //设置描述信息
+            if (!String.IsNullOrWhiteSpace(setting.Description))
+            {
+                var row1 = sheet1.CreateRow(currentRowIndex);
+                for (var i = 0; i < cols; i++)
+                {
+                    row1.CreateCell(i).Row.Height = 1000;
+                }
+                row1.GetCell(0).SetCellValue(setting.Description);
+
+                currentRowIndex++;
+
+                //描述样式
+                sheet1.AddMergedRegion(new CellRangeAddress(1, 1, 0, cols - 1));
+            }
+
+            //设置列分组
+            if (setting.ColumGroups != null && setting.ColumGroups.Any())
+            {
+                var rowGroup = sheet1.CreateRow(currentRowIndex);
+                var columGroup = setting.ColumGroups;
+
+                for (var i = 0; i < cols; i++)
+                {
+                    var cell = rowGroup.CreateCell(i, CellType.String);
+                    cell.SetCellValue(String.Empty);
+                    cell.Row.Height = 500;
+                }
+                var groupStyle = hssworkbook.CreateCellStyle();
+                var groupFont = hssworkbook.CreateFont();
+                groupFont.FontHeight = 15 * 15;
+                groupFont.Boldweight = 6000;
+                groupStyle.SetFont(groupFont);
+                groupStyle.Alignment = HorizontalAlignment.Center;
+
+                var excelColumGroups = columGroup as ExcelColumGroup[] ?? columGroup.ToArray();
+                for (var j = excelColumGroups.Length - 1; j >= 0; j--)
+                {
+                    var cell = rowGroup.GetCell(excelColumGroups.ElementAt(j).StartIndex);
+                    cell.SetCellValue(excelColumGroups.ElementAt(j).Name);
+                    cell.CellStyle = groupStyle;
+                    sheet1.AddMergedRegion(new CellRangeAddress(2, 2, excelColumGroups.ElementAt(j).StartIndex, excelColumGroups.ElementAt(j).StartIndex + excelColumGroups.ElementAt(j).Cols - 1));
+                }
+
+                currentRowIndex++;
+            }
+
+            //列头行索引
+            var columHeaderRowIndex = currentRowIndex;
+
+            //列头样式
+            var headerfont = hssworkbook.CreateFont();
+            headerfont.FontHeightInPoints = 12;
+            headerfont.Boldweight = (short)FontBoldWeight.Bold;
+            var headerstyle = hssworkbook.CreateCellStyle();
+            headerstyle.SetFont(headerfont);
+            //设置列头信息
+            var row2 = sheet1.CreateRow(columHeaderRowIndex);
+            for (var i = 0; i < cols; i++)
+            {
+                var cell = row2.CreateCell(i);
+                cell.Row.Height = 500;
+                cell.SetCellValue(setting.Colums.ElementAt(i).Name);
+                cell.CellStyle = headerstyle;
+
+            }
+
+            var dataStyle = hssworkbook.CreateCellStyle();
+            //水平对齐 
+            dataStyle.Alignment = HorizontalAlignment.Left;
+            //垂直对齐  
+            dataStyle.VerticalAlignment = VerticalAlignment.Top;
+            //自动换行 
+            dataStyle.WrapText = true;
+            //输出数据
+            for (var i = 0; i < setting.Source.Count(); i++)
+            {
+                var model = setting.Source.ElementAt(i);
+                var rowTemp = sheet1.CreateRow(i + columHeaderRowIndex + 1);
+
+                //Type modelType = model.GetType();
+                //PropertyInfo[] properties = modelType.GetProperties();
+                //var proDic = new Dictionary<string, PropertyInfo>();
+                //foreach (var item in properties)
+                //{
+                //    proDic.Add(item.Name, item);
+                //}
+                for (var j = 0; j < setting.Colums.Count(); j++)
+                {
+                    rowTemp.CreateCell(j).SetCellValueT(setting.Colums.ElementAt(j).ColumType,
+                        dataStyle,
+                        setting.Colums.ElementAt(j).ResultFunc == null ? setting.Colums.ElementAt(j).ResultByFieldName(model, setting.Colums.ElementAt(j).FieldName) : (setting.Colums.ElementAt(j).ResultFunc(model)));
+                }
+            }
+
+            var e = new HSSFFormulaEvaluator(hssworkbook);
+            //对设定并可行的列求和
+            var containSum = setting.Colums.Any(item => item.DoColumSum);
+
+            if (containSum)
+            {
+                var style = hssworkbook.CreateCellStyle();
+                var font = hssworkbook.CreateFont();
+                font.FontHeight = 15 * 15;
+                font.Boldweight = 6000;
+                font.Color = HSSFColor.Blue.Index;
+                style.SetFont(font);
+
+                //求和 SUM(A2:A12)
+                var letter = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                var totalRow = sheet1.CreateRow(columHeaderRowIndex + 1 + setting.Source.Count());
+                for (var x = 0; x < setting.Colums.Count(); x++)
+                {
+                    var rowName = x == 0 ? "A" : (x > 26 ? letter.ElementAt(x / 26).ToString() + letter.ElementAt(x % 26).ToString() : letter.ElementAt(x % 26).ToString());
+                    if (setting.Colums.ElementAt(x).DoColumSum)
+                    {
+                        var tempCell = totalRow.CreateCell(x);
+                        tempCell.CellFormula = "SUM(" + rowName + (columHeaderRowIndex + 2) + ":" + rowName + (columHeaderRowIndex + 1 + setting.Source.Count()) + ")";
+                        tempCell.CellStyle = style;
+                        e.EvaluateInCell(tempCell);
+                    }
+                    else
+                    {
+                        var temp = totalRow.CreateCell(x);
+                        temp.CellStyle = style;
+                        if (x == 0) temp.SetCellValue("合计");
+                    }
+                }
+            }
+
+            //表格样式
+            for (var i = 0; i < cols; i++)
+            {
+                if (setting.Colums.ElementAt(i).Width > 0)
+                    sheet1.SetColumnWidth(i, setting.Colums.ElementAt(i).Width);
+            }
+
+            //var stream = new MemoryStream();
+            //hssworkbook.Write(stream);
+            //return stream;
+
+            // 4.生成文件
+            var file = new FileStream(filePath, FileMode.Create);
+            hssworkbook.Write(file);
+            file.Close();
+
+            // 5.返回下载路径
+            return urlPath;
         }
 
         /// <summary>
@@ -434,8 +643,6 @@ namespace ASample.Web.Common.Excel
             {
                 throw ex;
             }
-
-
         }
 
         /// <summary>
@@ -467,7 +674,6 @@ namespace ASample.Web.Common.Excel
             cell.CellStyle = cellStyle;
 
         }
-
 
         /// <summary>
         /// 从Excel取数据并记录到List集合里
@@ -585,7 +791,6 @@ namespace ASample.Web.Common.Excel
                                         }
                                     }
                                 }
-
                             }
                             // 若有错误信息，就添加到错误信息里
                             if (errStr.Length > 0)
@@ -604,7 +809,6 @@ namespace ASample.Web.Common.Excel
                 throw ex;
             }
         }
-
 
         private static List<T> Excel2007ToEntityList<T>(Dictionary<string, string> cellHeard, string excelPath, out StringBuilder errorMsg) where T : new()
         {
@@ -685,7 +889,6 @@ namespace ASample.Web.Common.Excel
                                         }
                                     }
                                 }
-
                             }
                             // 若有错误信息，就添加到错误信息里
                             if (errStr.Length > 0)
@@ -777,8 +980,6 @@ namespace ASample.Web.Common.Excel
             return rs;
         }
 
-
-
         /// <summary>
         /// 保存Excel文件
         /// <para>Excel的导入导出都会在服务器生成一个文件</para>
@@ -805,6 +1006,5 @@ namespace ASample.Web.Common.Excel
                 return string.Empty;
             }
         }
-
     }
 }

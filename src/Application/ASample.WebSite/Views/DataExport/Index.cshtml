@@ -12,6 +12,8 @@
     <div id="searchPanel" class="row wrapper border-bottom white-bg page-heading mt10 searchpanel">
         <a id="btnExport" class="btn btn-info mt10"><i class="iconfont icon-refresh"></i>导出查询结果</a><br />
         <button id="btnExport2" class="btn btn-info mt10"><i class="iconfont icon-refresh"></i>导出查询结果2</button>
+        <button id="btnExport3" class="btn btn-info mt10"><i class="iconfont icon-refresh"></i>导出查询结果3</button>
+        <button id="btnExport4" class="btn btn-info mt10"><i class="iconfont icon-refresh"></i>导出查询结果4</button>
         <form enctype="multipart/form-data" id="file-form">
             <input type="file" name="filed" /><br />
         </form>
@@ -36,6 +38,12 @@
             $("#btnExport2").click(function () {
                 indexMethod.exportDataToExcel2();
             });
+            $("#btnExport3").click(function () {
+                indexMethod.exportDataToExcel3();
+            });
+            $("#btnExport4").click(function () {
+                indexMethod.exportDataToExcel4();
+            });
             $("#btnImport").click(function () {
                 indexMethod.importExcel();
             })
@@ -57,6 +65,28 @@
                         location.href = location.origin + '/' + data;
                     }
                 });
+        },
+        //ajax导出过滤后的数据
+        exportDataToExcel3: function () {
+                $('#file-form').ajaxSubmit({
+                    type: 'POST', // HTTP请求方式
+                    url: '/DataExport/ExportData3', // 请求的URL地址
+                    dataType: 'json', // 服务器返回数据转换成的类型
+                    success: function (data, responseStatus) {
+                        location.href = location.origin + '/' + data;
+                    }
+                });
+        },
+        //ajax导出过滤后的数据
+        exportDataToExcel4: function () {
+            $('#file-form').ajaxSubmit({
+                type: 'POST', // HTTP请求方式
+                url: '/DataExport/ExportData4', // 请求的URL地址
+                dataType: 'json', // 服务器返回数据转换成的类型
+                success: function (data, responseStatus) {
+                    location.href = location.origin + '/' + data;
+                }
+            });
         },
         // 导入Excel
         importExcel:function() {
